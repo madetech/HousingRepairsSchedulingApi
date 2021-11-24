@@ -455,34 +455,3 @@ $RECYCLE.BIN/
 
 ## Local tools
 ./local-tools/
-
-10091  cd Lincoln
-10092  mkdir meb/
-10093  cd meb
-10094  git clone https://github.com/madetech/MEB-test-api
-10100  brew install --cask dotnet-sdk # install latest dot net sdk 
-10101  dotnet -v
-10102  cd HousingRepairsSchedulingApi
-10103  dotnet new sln --name HousingRepairsSchedulingApi # start solution
-10107  mkdir HousingRepairsSchedulingApi 
-10108  cd HousingRepairsSchedulingApi
-10109  dotnet new webapi # create dummy webapp
-10110  cd ..
-10113  dotnet sln HousingRepairsSchedulingApi.sln add HousingRepairsSchedulingApi # add project to solution
-10115  mkdir HousingRepairsSchedulingApi.Tests
-10116  cd HousingRepairsSchedulingApi.Tests
-10119  dotnet new xunit  # create test project
-10120  cd ..
-10121  dotnet sln HousingRepairsSchedulingApi.sln add HousingRepairsSchedulingApi.Tests  # add test project to solution
-10122  cd HousingRepairsSchedulingApi.Tests
-10130  dotnet add HousingRepairsSchedulingApi.Tests.csproj reference ../HousingRepairsSchedulingApi/HousingRepairsSchedulingApi.csproj # reference app in test app
-10132  cd ..
-10133  dotnet build # build everything
-10135  dotnet run --project HousingRepairsSchedulingApi # run dummy webapp
-10140  git add .
-10142  git commit
-10143  git push origin main
-
-
-
-
