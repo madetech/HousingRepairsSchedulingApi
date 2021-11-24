@@ -10,6 +10,32 @@ on:
   workflow_dispatch:
 
 jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Install dotnet format
+        run: dotnet tool update --global dotnet-format
+      - name: Run dotnet format
+        run: dotnet format --check --verbosity diagnostic
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Test
+        run: dotnet test
+  
   build:
     runs-on: ubuntu-latest
 
