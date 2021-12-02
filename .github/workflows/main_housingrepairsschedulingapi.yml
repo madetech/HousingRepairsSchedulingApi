@@ -5,9 +5,12 @@ name: Build and deploy ASP.Net Core app to Azure Web App - HousingRepairsSchedul
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened, closed ]
     branches:
       - main
-  workflow_dispatch:
+
 
 jobs:
   format:
