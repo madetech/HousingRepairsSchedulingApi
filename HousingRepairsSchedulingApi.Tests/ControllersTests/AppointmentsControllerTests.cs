@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using Xunit;
-using FluentAssertions;
 
 namespace HousingRepairsSchedulingApi.Tests.ControllersTests
 {
@@ -25,9 +25,9 @@ namespace HousingRepairsSchedulingApi.Tests.ControllersTests
             const string sorCode = "uprn";
             const string locationId = "locationId";
 
-            var result = await sytemUndertest.AvailableAppointments(sorCode,locationId);
+            var result = await sytemUndertest.AvailableAppointments(sorCode, locationId);
             GetStatusCode(result).Should().Be(200);
-            availableAppointmentsUseCaseMock.Verify(x => x.Execute(sorCode,locationId), Times.Once);
+            availableAppointmentsUseCaseMock.Verify(x => x.Execute(sorCode, locationId), Times.Once);
         }
     }
 }

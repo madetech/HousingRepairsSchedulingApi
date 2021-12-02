@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http;
-using Xunit;
 using Moq;
+using Xunit;
 
 namespace HousingRepairsSchedulingApi.Tests.GatewaysTests
 {
@@ -22,7 +22,7 @@ namespace HousingRepairsSchedulingApi.Tests.GatewaysTests
         [Fact]
         public void ItDoesSomething()
         {
-// Arrange
+            // Arrange
 
         }
     }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using HousingRepairsSchedulingApi.Gateways;
-using Moq;
 using HousingRepairsSchedulingApi.UseCases;
+using Moq;
 using Xunit;
 namespace HousingRepairsSchedulingApi.Tests.UseCasesTests
 {
@@ -46,7 +46,7 @@ namespace HousingRepairsSchedulingApi.Tests.UseCasesTests
             var systemUnderTest = new RetrieveAvailableAppointmentsUseCase(appointmentsGatewayMock.Object);
 
             // Act
-            Func<Task> act = async () => await systemUnderTest.Execute("uprn",locationId);
+            Func<Task> act = async () => await systemUnderTest.Execute("uprn", locationId);
 
             // Assert
             await act.Should().ThrowExactlyAsync<T>();
@@ -64,7 +64,7 @@ namespace HousingRepairsSchedulingApi.Tests.UseCasesTests
         {
             const string uprn = "uprn";
             const string locationId = "locationId";
-            await sytemUndertest.Execute( "uprn", "locationId");
+            await sytemUndertest.Execute("uprn", "locationId");
             appointmentsGatewayMock.Verify(x => x.GetAvailableAppointments(uprn, locationId), Times.Once);
         }
     }
