@@ -19,8 +19,8 @@ namespace HousingRepairsSchedulingApi.UseCases
         {
             Guard.Against.NullOrWhiteSpace(sorCode, nameof(sorCode));
             Guard.Against.NullOrWhiteSpace(locationId, nameof(locationId));
-            await appointmentsGateway.GetAvailableAppointments(sorCode, locationId);
-            return null;
+            var result = await appointmentsGateway.GetAvailableAppointments(sorCode, locationId);
+            return result;
         }
     }
 }
