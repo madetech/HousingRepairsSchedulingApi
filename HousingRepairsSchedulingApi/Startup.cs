@@ -14,6 +14,9 @@ using Microsoft.OpenApi.Models;
 
 namespace HousingRepairsSchedulingApi
 {
+    using Gateways;
+    using UseCases;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -28,6 +31,8 @@ namespace HousingRepairsSchedulingApi
         {
 
             services.AddControllers();
+            services.AddTransient<IRetrieveAvailableAppointmentsUseCase, RetrieveAvailableAppointmentsUseCase>();
+            services.AddTransient<IAppointmentsGateway, AppointmentsGateway>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HousingRepairsSchedulingApi", Version = "v1" });
