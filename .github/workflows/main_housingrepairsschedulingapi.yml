@@ -5,9 +5,12 @@ name: Build and deploy ASP.Net Core app to Azure Web App - HousingRepairsSchedul
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened, closed ]
     branches:
       - main
-  workflow_dispatch:
+
 
 jobs:
   format:
@@ -33,6 +36,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
+      - name: Authenticate nuget
+        run: dotnet nuget add source --username ${{ secrets.NUGET_AUTH_GITHUB_USERNAME }} --password ${{ secrets.NUGET_AUTH_GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/City-of-Lincoln-Council/index.json"
       - name: Test
         run: dotnet test
 
