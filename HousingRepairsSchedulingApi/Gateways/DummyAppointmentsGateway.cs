@@ -6,7 +6,7 @@ namespace HousingRepairsSchedulingApi.Gateways
     using System.Threading.Tasks;
     using HACT.Dtos;
 
-    public class AppointmentsGateway : IAppointmentsGateway
+    public class DummyAppointmentsGateway : IAppointmentsGateway
     {
         public async Task<IEnumerable<Appointment>> GetAvailableAppointments(string sorCode, string locationId)
         {

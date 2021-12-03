@@ -14,10 +14,11 @@ namespace HousingRepairsSchedulingApi.Controllers
         {
             this.retrieveAvailableAppointmentsUseCase = retrieveAvailableAppointmentsUseCase;
         }
+
         [HttpGet]
         public async Task<IActionResult> AvailableAppointments([FromQuery] string sorCode, [FromQuery] string locationId)
         {
-            var result = await this.retrieveAvailableAppointmentsUseCase.Execute(sorCode, locationId);
+            var result = await retrieveAvailableAppointmentsUseCase.Execute(sorCode, locationId);
             return this.Ok(result);
         }
     }

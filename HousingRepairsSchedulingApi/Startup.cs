@@ -32,7 +32,7 @@ namespace HousingRepairsSchedulingApi
 
             services.AddControllers();
             services.AddTransient<IRetrieveAvailableAppointmentsUseCase, RetrieveAvailableAppointmentsUseCase>();
-            services.AddTransient<IAppointmentsGateway, AppointmentsGateway>();
+            services.AddTransient<IAppointmentsGateway, DummyAppointmentsGateway>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HousingRepairsSchedulingApi", Version = "v1" });

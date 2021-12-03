@@ -25,4 +25,8 @@
     <ProjectReference Include="..\HousingRepairsSchedulingApi\HousingRepairsSchedulingApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="GatewaysTests" />
+  </ItemGroup>
+
 </Project>
