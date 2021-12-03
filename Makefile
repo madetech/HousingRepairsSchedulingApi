@@ -13,4 +13,4 @@ lint:
 
 .PHONY: run
 run: build
-	source ./.env && dotnet run --project HousingRepairsSchedulingApi
+	dotnet run --project HousingRepairsSchedulingApi
