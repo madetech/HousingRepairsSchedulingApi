@@ -26,8 +26,8 @@ namespace HousingRepairsSchedulingApi.Gateways
                     Date = DateTime.Today.AddDays(20).AddDays(2),
                     TimeOfDay = new TimeOfDay
                     {
-                        EarliestArrivalTime = DateTime.Today.AddDays(2).AddHours(12),
-                        LatestArrivalTime = DateTime.Today.AddDays(2).AddHours(16)
+                        EarliestArrivalTime = DateTime.Today.AddDays(20).AddDays(2).AddHours(12),
+                        LatestArrivalTime = DateTime.Today.AddDays(20).AddDays(2).AddHours(16)
                     },
                 },
                 new()
@@ -35,8 +35,8 @@ namespace HousingRepairsSchedulingApi.Gateways
                     Date = DateTime.Today.AddDays(7).AddDays(7),
                     TimeOfDay = new TimeOfDay
                     {
-                        EarliestArrivalTime = DateTime.Today.AddDays(7).AddHours(8),
-                        LatestArrivalTime = DateTime.Today.AddDays(7).AddHours(12)
+                        EarliestArrivalTime = DateTime.Today.AddDays(7).AddDays(7).AddHours(8),
+                        LatestArrivalTime = DateTime.Today.AddDays(7).AddDays(7).AddHours(12)
                     },
                 },
                 new ()
@@ -44,8 +44,8 @@ namespace HousingRepairsSchedulingApi.Gateways
                     Date = DateTime.Today.AddDays(1).AddDays(1),
                     TimeOfDay = new TimeOfDay
                     {
-                        EarliestArrivalTime = DateTime.Today.AddDays(1).AddHours(8),
-                        LatestArrivalTime = DateTime.Today.AddDays(1).AddHours(12)
+                        EarliestArrivalTime = DateTime.Today.AddDays(1).AddDays(1).AddHours(8),
+                        LatestArrivalTime = DateTime.Today.AddDays(1).AddDays(1).AddHours(12)
                     },
                 },
                 new ()
@@ -53,8 +53,8 @@ namespace HousingRepairsSchedulingApi.Gateways
                     Date = DateTime.Today.AddDays(5).AddDays(5),
                     TimeOfDay = new TimeOfDay
                     {
-                        EarliestArrivalTime = DateTime.Today.AddDays(5).AddHours(12),
-                        LatestArrivalTime = DateTime.Today.AddDays(5).AddHours(16)
+                        EarliestArrivalTime = DateTime.Today.AddDays(5).AddDays(5).AddHours(12),
+                        LatestArrivalTime = DateTime.Today.AddDays(5).AddDays(5).AddHours(16)
                     },
                 }
             };
