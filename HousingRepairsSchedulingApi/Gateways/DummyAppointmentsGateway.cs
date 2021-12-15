@@ -24,7 +24,7 @@ namespace HousingRepairsSchedulingApi.Gateways
                 },
                 new()
                 {
-                    Date = DateTime.Today.AddDays(20).AddDays(2),
+                    Date = dateTime.AddDays(20).AddDays(2),
                     TimeOfDay = new TimeOfDay
                     {
                         EarliestArrivalTime = dateTime.AddDays(20).AddDays(2).AddHours(12),
@@ -33,7 +33,7 @@ namespace HousingRepairsSchedulingApi.Gateways
                 },
                 new()
                 {
-                    Date = DateTime.Today.AddDays(7).AddDays(7),
+                    Date = dateTime.AddDays(7).AddDays(7),
                     TimeOfDay = new TimeOfDay
                     {
                         EarliestArrivalTime = dateTime.AddDays(7).AddDays(7).AddHours(8),
@@ -42,7 +42,7 @@ namespace HousingRepairsSchedulingApi.Gateways
                 },
                 new ()
                 {
-                    Date = DateTime.Today.AddDays(1).AddDays(1),
+                    Date = dateTime.AddDays(1).AddDays(1),
                     TimeOfDay = new TimeOfDay
                     {
                         EarliestArrivalTime = dateTime.AddDays(1).AddDays(1).AddHours(8),
@@ -51,7 +51,7 @@ namespace HousingRepairsSchedulingApi.Gateways
                 },
                 new ()
                 {
-                    Date = DateTime.Today.AddDays(5).AddDays(5),
+                    Date = dateTime.AddDays(5).AddDays(5),
                     TimeOfDay = new TimeOfDay
                     {
                         EarliestArrivalTime = dateTime.AddDays(5).AddDays(5).AddHours(12),
