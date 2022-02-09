@@ -23,9 +23,15 @@ namespace HousingRepairsSchedulingApi
                     webBuilder.UseSentry(o =>
                     {
                         o.Dsn = Environment.GetEnvironmentVariable("SENTRY_DNS");
-                        o.Debug = true;
-                        o.TracesSampleRate = 1.0;
+
+                        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                        if (environment == Environments.Development)
+                        {
+                            o.Debug = true;
+                            o.TracesSampleRate = 1.0;
+                        }
                     });
+
                     webBuilder.UseStartup<Startup>();
                 });
     }
