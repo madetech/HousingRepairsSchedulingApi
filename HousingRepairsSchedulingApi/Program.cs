@@ -20,6 +20,12 @@ namespace HousingRepairsSchedulingApi
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseSentry(o =>
+                    {
+                        o.Dsn = Environment.GetEnvironmentVariable("SENTRY_DNS");
+                        o.Debug = true;
+                        o.TracesSampleRate = 1.0;
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -3,6 +3,7 @@ namespace HousingRepairsSchedulingApi.Controllers
     using System;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Sentry;
     using UseCases;
 
     [ApiController]
@@ -23,8 +24,16 @@ namespace HousingRepairsSchedulingApi.Controllers
         [Route("AvailableAppointments")]
         public async Task<IActionResult> AvailableAppointments([FromQuery] string sorCode, [FromQuery] string locationId, [FromQuery] DateTime? fromDate = null)
         {
-            var result = await retrieveAvailableAppointmentsUseCase.Execute(sorCode, locationId, fromDate);
-            return this.Ok(result);
+            try
+            {
+                var result = await retrieveAvailableAppointmentsUseCase.Execute(sorCode, locationId, fromDate);
+                return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                SentrySdk.CaptureException(ex);
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost]
@@ -35,9 +44,17 @@ namespace HousingRepairsSchedulingApi.Controllers
             [FromQuery] DateTime startDateTime,
             [FromQuery] DateTime endDateTime)
         {
-            var result = await bookAppointmentUseCase.Execute(bookingReference, sorCode, locationId, startDateTime, endDateTime);
+            try
+            {
+                var result = await bookAppointmentUseCase.Execute(bookingReference, sorCode, locationId, startDateTime, endDateTime);
 
-            return this.Ok(result);
+                return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                SentrySdk.CaptureException(ex);
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
