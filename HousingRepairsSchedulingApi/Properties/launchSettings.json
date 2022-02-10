@@ -29,7 +29,8 @@
         "JWT_SECRET" : "<REPLACE WITH A SECRET>",
         "DrsOptions__ApiAddress" : "https://<REPLACE WITH DRS API ADDRESS>",
         "DrsOptions__Login" : "<REPLACE WITH DRS LOGIN>",
-        "DrsOptions__Password" : "<REPLACE WITH DRS PASSWORD>"
+        "DrsOptions__Password" : "<REPLACE WITH DRS PASSWORD>",
+        "SENTRY_DNS": "https://<REPLACE WITH SENTRY DSN>"
       }
     }
   }

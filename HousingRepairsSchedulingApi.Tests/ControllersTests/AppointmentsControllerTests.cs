@@ -34,6 +34,20 @@ namespace HousingRepairsSchedulingApi.Tests.ControllersTests
             availableAppointmentsUseCaseMock.Verify(x => x.Execute(SorCode, LocationId, null), Times.Once);
         }
 
+
+        [Fact]
+        public async Task ReturnsErrorWhenFailsToGetAvailableAppointments()
+        {
+
+            const string errorMessage = "An error message";
+            this.availableAppointmentsUseCaseMock.Setup(x => x.Execute(It.IsAny<String>(), It.IsAny<String>(), null)).Throws(new Exception(errorMessage));
+
+            var result = await this.systemUndertest.AvailableAppointments(SorCode, LocationId);
+
+            GetStatusCode(result).Should().Be(500);
+            GetResultData<string>(result).Should().Be(errorMessage);
+        }
+
         [Fact]
         public async Task TestBookAppointmentEndpoint()
         {
@@ -61,6 +75,22 @@ namespace HousingRepairsSchedulingApi.Tests.ControllersTests
             // Assert
             GetStatusCode(result).Should().Be(200);
             availableAppointmentsUseCaseMock.Verify(x => x.Execute(sorCode, locationId, fromDate), Times.Once);
+        }
+
+        [Fact]
+        public async Task ReturnsErrorWhenFailsToBookAppointments()
+        {
+            const string bookingReference = "bookingReference";
+            var startDateTime = It.IsAny<DateTime>();
+            var endDateTime = It.IsAny<DateTime>();
+
+            const string errorMessage = "An error message";
+            this.bookAppointmentUseCaseMock.Setup(x => x.Execute(It.IsAny<String>(), It.IsAny<String>(), It.IsAny<String>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Throws(new Exception(errorMessage));
+
+            var result = await this.systemUndertest.BookAppointment(bookingReference, SorCode, LocationId, startDateTime, endDateTime);
+
+            GetStatusCode(result).Should().Be(500);
+            GetResultData<string>(result).Should().Be(errorMessage);
         }
     }
 }
