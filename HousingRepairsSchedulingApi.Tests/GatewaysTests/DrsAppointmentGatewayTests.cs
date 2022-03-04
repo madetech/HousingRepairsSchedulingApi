@@ -412,6 +412,56 @@ namespace HousingRepairsSchedulingApi.Tests.GatewaysTests
             actualAppointments.Should().BeEquivalentTo(expected);
         }
 
+        [Theory]
+        [MemberData(nameof(TimeZoneOffsetTestData))]
+#pragma warning disable CA1707
+        public async void GivenDrsServiceHasAvailableAppointmentsThatAreNotRequiredDueToTimeZoneOffset_WhenGettingAvailableAppointments_ThenTheyAreFilteredOutOfAppointmentsThatAreReturned(AppointmentSlot unrequiredAppointmentSlot)
+#pragma warning restore CA1707
+        {
+            // Arrange
+            var sorCode = "sorCode";
+            var locationId = "locationId";
+
+            systemUnderTest = new DrsAppointmentGateway(
+                this.drsServiceMock.Object,
+                1,
+                AppointmentSearchTimeSpanInDays,
+                AppointmentLeadTimeInDays, 1);
+
+            drsServiceMock.SetupSequence(x => x.CheckAvailability(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<DateTime>()))
+                .ReturnsAsync(new[] { unrequiredAppointmentSlot });
+
+            // Act
+            var actualAppointments = await systemUnderTest.GetAvailableAppointments(sorCode, locationId);
+
+            // Assert
+            actualAppointments.Should().BeEmpty();
+        }
+
+        public static IEnumerable<object[]> TimeZoneOffsetTestData()
+        {
+            yield return new object[]
+            {
+                new AppointmentSlot
+                {
+                    StartTime = new DateTime(2022, 3, 30, 7, 0, 0, DateTimeKind.Utc),
+                    EndTime = new DateTime(2022, 3, 30, 15, 0, 0, DateTimeKind.Utc)
+                }
+            };
+
+            yield return new object[]
+            {
+                new AppointmentSlot
+                {
+                    StartTime = new DateTime(2022, 3, 30, 8, 30, 0, DateTimeKind.Utc),
+                    EndTime = new DateTime(2022, 3, 30, 13, 30, 0, DateTimeKind.Utc)
+                }
+            };
+        }
+
         [Fact]
 #pragma warning disable CA1707
         public async void GivenDrsServiceRequiresMultipleRequests_WhenGettingAvailableAppointments_ThenCorrectTimeSpanIncrementApplied()

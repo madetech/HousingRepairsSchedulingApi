@@ -50,7 +50,11 @@ namespace HousingRepairsSchedulingApi.Gateways
                     !(x.StartTime.Hour == 9 && x.EndTime.Minute == 30
                       && x.EndTime.Hour == 14 && x.EndTime.Minute == 30) &&
                     !(x.StartTime.Hour == 8 && x.EndTime.Minute == 0
-                                            && x.EndTime.Hour == 16 && x.EndTime.Minute == 0)
+                                            && x.EndTime.Hour == 16 && x.EndTime.Minute == 0) &&
+                    !(x.StartTime.Hour == 8 && x.EndTime.Minute == 30
+                                            && x.EndTime.Hour == 13 && x.EndTime.Minute == 30) &&
+                    !(x.StartTime.Hour == 7 && x.EndTime.Minute == 0
+                                            && x.EndTime.Hour == 15 && x.EndTime.Minute == 0)
                 );
                 appointmentSlots = appointmentSlots.Concat(appointments);
                 earliestDate = earliestDate.AddDays(appointmentSearchTimeSpanInDays);
