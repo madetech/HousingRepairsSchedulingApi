@@ -54,14 +54,13 @@ namespace HousingRepairsSchedulingApi
 
             services.AddTransient<IDrsService, DrsService>();
 
-            services.AddTransient<IAppointmentsGateway, DrsAppointmentGateway>(sp =>
+            services.AddTransient<IAppointmentsGateway, DummyAppointmentsGateway>(sp =>
                 {
-                    var drsOptions = sp.GetRequiredService<IOptions<DrsOptions>>();
-                    var appointmentSearchTimeSpanInDays = drsOptions.Value.SearchTimeSpanInDays;
-                    var appointmentLeadTimeInDays = drsOptions.Value.AppointmentLeadTimeInDays;
-                    var maximumNumberOfRequests = drsOptions.Value.MaximumNumberOfRequests;
-                    return new DrsAppointmentGateway(sp.GetService<IDrsService>(),
-                        5, appointmentSearchTimeSpanInDays, appointmentLeadTimeInDays, maximumNumberOfRequests);
+                    // var drsOptions = sp.GetRequiredService<IOptions<DrsOptions>>();
+                    // var appointmentSearchTimeSpanInDays = drsOptions.Value.SearchTimeSpanInDays;
+                    // var appointmentLeadTimeInDays = drsOptions.Value.AppointmentLeadTimeInDays;
+                    // var maximumNumberOfRequests = drsOptions.Value.MaximumNumberOfRequests;
+                    return new DummyAppointmentsGateway();
                 }
             );
 
@@ -71,10 +70,10 @@ namespace HousingRepairsSchedulingApi
                 c.AddJwtSecurityScheme();
             });
 
-            var address = Configuration.GetSection(nameof(DrsOptions))[DrsOptionsApiAddressConfigurationKey];
-            var addressHost = new Uri(address).Host;
-            services.AddHealthChecks()
-                .AddTcpHealthCheck(options => options.AddHost(addressHost, 80), name: "DRS Host TCP Ping");
+            // var address = Configuration.GetSection(nameof(DrsOptions))[DrsOptionsApiAddressConfigurationKey];
+            // var addressHost = new Uri(address).Host;
+            services.AddHealthChecks();
+            //     .AddTcpHealthCheck(options => options.AddHost(addressHost, 80), name: "DRS Host TCP Ping");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,11 +86,11 @@ namespace HousingRepairsSchedulingApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HousingRepairsSchedulingApi v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseSentryTracing();
+           // app.UseSentryTracing();
 
             app.UseAuthentication();
             app.UseAuthorization();
