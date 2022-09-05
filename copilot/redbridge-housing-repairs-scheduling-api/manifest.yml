@@ -10,7 +10,11 @@ type: Backend Service
 
 # Configuration for your containers and service.
 image:
-  location: nginx
+  build:
+    dockerfile: ./Dockerfile
+    args:
+      USERNAME: ${GITHUB_USERNAME}
+      TOKEN: ${GITHUB_TOKEN}
   port: 80
 
 cpu: 256       # Number of CPU units for the task.
@@ -27,8 +31,17 @@ exec: true     # Enable running commands in your container.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 
 # You can override any of the values defined above by environment.
-#environments:
-#  test:
-#    count: 2               # Number of tasks to run for the "test" environment.
-#    deployment:            # The deployment strategy for the "test" environment.
-#       rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
+# NOTE!!!: Environment variables set here are for test purposes, secrets should be set using SSM or similar
+environments:
+  preproduction:
+    variables:
+      AUTHENTICATION_IDENTIFIER: Foo
+      JWT_SECRET: and0X3NlY3JldA
+      DrsOptions__ApiAddress: https://foo
+      DrsOptions__Login: Foo
+      DrsOptions__Password: Foo
+    network:
+      vpc:
+        security_groups:
+          deny_default: false
+          groups: [sg-02c845b61c1cb0381]
