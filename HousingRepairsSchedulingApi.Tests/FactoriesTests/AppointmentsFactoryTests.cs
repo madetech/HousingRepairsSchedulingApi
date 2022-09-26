@@ -1,10 +1,10 @@
-namespace HousingRepairsSchedulingApi.Tests.MappersTests;
+namespace HousingRepairsSchedulingApi.Tests.FactoriesTests;
 
 using System;
 using System.Linq;
 using Dtos;
-using FluentAssertions;
 using Factories;
+using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -14,7 +14,8 @@ public class AppointmentsMapperTests
     [JsonFileData("getAppointmentSlots.json", "twoDaysAround", typeof(GetSlotsResponse))]
     public void ShouldFilterOutAppointmentsThatAreNotBookable(GetSlotsResponse getSlotsResponse)
     {
-        var appointments = AppointmentsFactory.FromGetSlotsResponse(getSlotsResponse);
+        var appointmentsFactory = new AppointmentsFactory();
+        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse);
 
         appointments.Should().HaveCount(7);
     }
@@ -45,7 +46,8 @@ public class AppointmentsMapperTests
     ]}";
         var getSlotsResponse = JsonConvert.DeserializeObject<GetSlotsResponse>(responseJson);
 
-        var appointment = AppointmentsFactory.FromGetSlotsResponse(getSlotsResponse).First();
+        var appointmentsFactory = new AppointmentsFactory();
+        var appointment = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse).First();
 
         appointment.StartTime.Should().Be(DateTime.Parse("2022-09-26T08:00:00"));
         appointment.EndTime.Should().Be(DateTime.Parse("2022-09-26T17:00:00"));

@@ -1,11 +1,10 @@
 namespace HousingRepairsSchedulingApi.Factories;
+
 using Dtos;
 
 public class JobIdentifierFactory
 {
-    public JobIdentifier FromSorCode(string sorCode)
-    {
-        // TODO : actual implementation
-        return new JobIdentifier() { SorCode = sorCode, TradeCode = "foo", PriorityCode = "bar" };
-    }
+    public JobIdentifier FromSorCode(string sorCode) =>
+        // TODO: actual implementation
+        new() { SorCode = sorCode, TradeCode = "EL", PriorityCode = "R" };
 }
