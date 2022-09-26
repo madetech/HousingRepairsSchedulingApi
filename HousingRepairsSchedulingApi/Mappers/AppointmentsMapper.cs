@@ -1,13 +1,11 @@
 namespace HousingRepairsSchedulingApi.Mappers;
 
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Domain;
 using Dtos;
 
-public class AppointmentsMapper
+public static class AppointmentsMapper
 {
         // remove days that are not bookable or have no slots
         // remove slots that are not bookable
@@ -20,10 +18,9 @@ public class AppointmentsMapper
                 return day.Slots.Select(slot =>
                     new AppointmentSlot()
                     {
-                        StartTime = date,
-                        EndTime = date
+                        StartTime = date.Add(slot.StartTime),
+                        EndTime = date.Add(slot.EndTime),
                     }
-
                 );
             });
 }
