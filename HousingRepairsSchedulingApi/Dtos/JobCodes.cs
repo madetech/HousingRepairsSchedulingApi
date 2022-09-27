@@ -1,7 +1,6 @@
 namespace HousingRepairsSchedulingApi.Dtos;
 
-// TODO: Think of a better name for this
-public class JobIdentifier
+public class JobCodes
 {
     public string SorCode { get; set; }
     public string TradeCode { get; set; }

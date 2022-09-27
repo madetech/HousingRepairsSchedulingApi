@@ -5,14 +5,14 @@ using System;
 public class GetSlotsRequest
 {
     // TODO: Remove hardcoding of values
-    public GetSlotsRequest(JobIdentifier jobIdentifier, DateTime appointmentDateTime, string addressUprn)
+    public GetSlotsRequest(JobCodes jobCodes, DateTime appointmentDateTime, string addressUprn)
     {
         this.ClientSystemUser = "Made Tech";
         this.OperationMode = 0;
         this.ContractType = "Response";
         this.ClientContractReference = null;
-        this.TradesArray = jobIdentifier.TradeCode;
-        this.Priority = jobIdentifier.PriorityCode;
+        this.TradesArray = jobCodes.TradeCode;
+        this.Priority = jobCodes.PriorityCode;
         this.AppointmentDateTime = appointmentDateTime;
         this.DaysAroundReturnedDate = 14;
         this.SlotDuration = 0;
