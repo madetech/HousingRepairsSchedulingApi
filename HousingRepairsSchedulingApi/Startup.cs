@@ -54,7 +54,7 @@ public class Startup
                 var mcmUsername = Environment.GetEnvironmentVariable("MCM_USERNAME");
                 var mcmPassword = Environment.GetEnvironmentVariable("MCM_PASSWORD");
                 var mcmBaseUrl = Environment.GetEnvironmentVariable("MCM_BASEURL");
-                return new McmAppointmentGateway(mcmBaseUrl, new AppointmentsFactory(), new JobIdentifierFactory(),
+                return new McmAppointmentGateway(mcmBaseUrl, new AppointmentsFactory(), new JobCodesFactory(),
                     mcmUsername, mcmPassword);
             }
         );

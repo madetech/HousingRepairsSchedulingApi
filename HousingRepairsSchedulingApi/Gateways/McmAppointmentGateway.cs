@@ -13,17 +13,17 @@ public class McmAppointmentGateway : IAppointmentsGateway
 {
     private readonly string appointmentManagementUrl;
     private readonly AppointmentsFactory appointmentsFactory;
-    private readonly JobIdentifierFactory jobIdentifierFactory;
+    private readonly JobCodesFactory jobCodesFactory;
     private readonly string mcmPassword;
     private readonly string mcmUsername;
 
     // TODO: Bundle up baseUrl, username, and password into configuration object
     public McmAppointmentGateway(string baseUrl, AppointmentsFactory appointmentsFactory,
-        JobIdentifierFactory jobIdentifierFactory, string mcmUsername, string mcmPassword)
+        JobCodesFactory jobCodesFactory, string mcmUsername, string mcmPassword)
     {
         this.appointmentsFactory = appointmentsFactory;
         this.appointmentManagementUrl = baseUrl.AppendPathSegment("/api/AppointmentManagement");
-        this.jobIdentifierFactory = jobIdentifierFactory;
+        this.jobCodesFactory = jobCodesFactory;
         this.mcmUsername = mcmUsername;
         this.mcmPassword = mcmPassword;
     }
@@ -32,8 +32,8 @@ public class McmAppointmentGateway : IAppointmentsGateway
         DateTime? fromDate = null)
     {
         // TODO: Error Handling
-        var jobIdentifier = this.jobIdentifierFactory.FromSorCode(sorCode);
-        var getSlotsRequest = new GetSlotsRequest(jobIdentifier, fromDate ?? DateTime.Today.AddDays(1), locationId);
+        var jobCodes = this.jobCodesFactory.FromSorCode(sorCode);
+        var getSlotsRequest = new GetSlotsRequest(jobCodes, fromDate ?? DateTime.Today.AddDays(1), locationId);
 
         var response = await this.appointmentManagementUrl.AppendPathSegment("GetAvailableSlots")
             .WithBasicAuth(this.mcmUsername, this.mcmPassword).PostJsonAsync(getSlotsRequest)
