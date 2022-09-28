@@ -22,12 +22,15 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Update="getAppointmentSlots.json" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HousingRepairsSchedulingApi\HousingRepairsSchedulingApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="fixtures\getAppointmentSlots.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
 </Project>
