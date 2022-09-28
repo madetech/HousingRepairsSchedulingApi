@@ -2,7 +2,6 @@ namespace HousingRepairsSchedulingApi.Dtos;
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 public class GetSlotsResponse
 {
@@ -13,19 +12,19 @@ public class GetSlotsResponse
 
 public class SlotDay
 {
-   public DateTime SlotDate { get; set; }
-   public int ResourceCapacity { get; set; }
-   public bool NonBookingDay { get; set; }
+    public DateTime SlotDate { get; set; }
+    public int ResourceCapacity { get; set; }
+    public bool NonBookingDay { get; set; }
 
-   public List<Slot> Slots { get; set; }
+    public List<Slot> Slots { get; set; }
 }
 
 public class Slot
 {
-   public string Description { get; set; }
-   public TimeSpan StartTime { get; set; }
-   public TimeSpan EndTime { get; set; }
-   public bool Bookable { get; set; }
-   public int AvailableSlotCapacity { get; set; }
-   public int MaximumSlotCapacity { get; set; }
+    public string Description { get; set; }
+    public TimeSpan StartTime { get; set; }
+    public TimeSpan EndTime { get; set; }
+    public bool Bookable { get; set; }
+    public int AvailableSlotCapacity { get; set; }
+    public int MaximumSlotCapacity { get; set; }
 }

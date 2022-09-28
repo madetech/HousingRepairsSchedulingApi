@@ -8,7 +8,10 @@ using Dtos;
 public class AppointmentsFactory
 {
     // remove days that are not bookable or have no slots
+    //
     // remove slots that are not bookable
+    // (this means looking at the bookable flag and the available slot capacity).
+    //
     // combine into single list
     public IEnumerable<AppointmentSlot> FromGetSlotsResponse(GetSlotsResponse response) =>
         response.SlotDays.Where(day => day.NonBookingDay == false && day.ResourceCapacity > 0).SelectMany(day =>
