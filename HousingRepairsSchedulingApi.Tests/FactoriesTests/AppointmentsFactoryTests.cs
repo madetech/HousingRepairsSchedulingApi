@@ -52,4 +52,14 @@ public class AppointmentsFactoryTests
         appointment.StartTime.Should().Be(DateTime.Parse("2022-09-26T08:00:00"));
         appointment.EndTime.Should().Be(DateTime.Parse("2022-09-26T17:00:00"));
     }
+
+    [Theory]
+    [JsonFileData("fixtures/getAppointmentSlots.json", "slotWithNoAvailability", typeof(GetSlotsResponse))]
+    public void ShouldFilterOutSlotsWithNoAvailability(GetSlotsResponse getSlotsResponse)
+    {
+        var appointmentsFactory = new AppointmentsFactory();
+        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse);
+
+        appointments.Should().HaveCount(1);
+    }
 }

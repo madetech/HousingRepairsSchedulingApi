@@ -18,7 +18,7 @@ public class AppointmentsFactory
         {
             var date = day.SlotDate;
 
-            return day.Slots.Select(slot =>
+            return day.Slots.Where(slot => slot.AvailableSlotCapacity > 0 && slot.Bookable).Select(slot =>
                 new AppointmentSlot { StartTime = date.Add(slot.StartTime), EndTime = date.Add(slot.EndTime) }
             );
         });

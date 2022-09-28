@@ -98,5 +98,50 @@
     "GasComplianceDetails": null,
     "CalendarCentralisationDetails": null,
     "TradeAreaDetails": null
+  },
+  "slotWithNoAvailability": {
+    "StatusCode": "1",
+    "StatusMessage": "SUCCESS",
+    "ContractReference": null,
+    "SlotDays": [
+      {
+        "SlotDate": "2022-09-23T00:00:00",
+        "ResourceCapacity": 0,
+        "NonBookingDay": false,
+        "Slots": []
+      },
+      {
+        "SlotDate": "2022-09-26T00:00:00",
+        "ResourceCapacity": 2,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "10:00-12:00",
+            "StartTime": "10:00:00",
+            "EndTime": "12:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 0,
+            "MaximumSlotCapacity": 7
+          },
+          {
+            "Description": "15:00-17:00",
+            "StartTime": "15:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 5,
+            "MaximumSlotCapacity": 7
+          }
+        ]
+      }
+    ],
+    "GasComplianceDetails": null,
+    "CalendarCentralisationDetails": {
+      "CentralisedInJobPriorityDays": true,
+      "CentralDate": "2022-09-24T14:22:10.512Z"
+    },
+    "TradeAreaDetails": {
+      "Active": false,
+      "AppointmentArea": null
+    }
   }
 }
