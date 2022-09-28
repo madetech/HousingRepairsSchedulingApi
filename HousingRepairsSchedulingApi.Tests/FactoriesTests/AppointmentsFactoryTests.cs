@@ -8,10 +8,10 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 
-public class AppointmentsMapperTests
+public class AppointmentsFactoryTests
 {
     [Theory]
-    [JsonFileData("getAppointmentSlots.json", "twoDaysAround", typeof(GetSlotsResponse))]
+    [JsonFileData("fixtures/getAppointmentSlots.json", "twoDaysAround", typeof(GetSlotsResponse))]
     public void ShouldFilterOutAppointmentsThatAreNotBookable(GetSlotsResponse getSlotsResponse)
     {
         var appointmentsFactory = new AppointmentsFactory();

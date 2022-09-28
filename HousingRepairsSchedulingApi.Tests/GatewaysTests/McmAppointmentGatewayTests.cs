@@ -44,7 +44,7 @@ public class McmAppointmentGatewayTests : IDisposable
     }
 
     [Theory]
-    [JsonFileData("getAppointmentSlots.json", "error", typeof(GetSlotsResponse))]
+    [JsonFileData("fixtures/getAppointmentSlots.json", "error", typeof(GetSlotsResponse))]
     public async Task ShouldThrowExceptionWhenMcmReturnsAnErrorInTheResponseBody(GetSlotsResponse response)
     {
         this.httpTest.RespondWithJson(response);
