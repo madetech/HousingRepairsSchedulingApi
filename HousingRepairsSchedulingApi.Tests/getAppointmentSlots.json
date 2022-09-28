@@ -89,5 +89,14 @@
       "Active": false,
       "AppointmentArea": null
     }
+  },
+  "error": {
+    "StatusCode": "4018",
+    "StatusMessage": "APPOINTMENT DATE IS NOT IN THE FUTURE",
+    "ContractReference": null,
+    "SlotDays": null,
+    "GasComplianceDetails": null,
+    "CalendarCentralisationDetails": null,
+    "TradeAreaDetails": null
   }
 }

@@ -1,46 +1,57 @@
+namespace HousingRepairsSchedulingApi.Tests.GatewaysTests;
+
 using System;
 using System.Threading.Tasks;
+using Dtos;
+using Factories;
 using FluentAssertions;
 using Flurl.Http;
-using Xunit;
 using Flurl.Http.Testing;
-using HousingRepairsSchedulingApi.Factories;
-using HousingRepairsSchedulingApi.Gateways;
-
-namespace HousingRepairsSchedulingApi.Tests.GatewaysTests;
+using Gateways;
+using Gateways.Exceptions;
+using Xunit;
 
 public class McmAppointmentGatewayTests : IDisposable
 {
-    private HttpTest httpTest;
-    private McmAppointmentGateway mcmAppointmentGateway;
+    private readonly HttpTest httpTest;
+    private readonly McmAppointmentGateway mcmAppointmentGateway;
 
     public McmAppointmentGatewayTests()
     {
-        httpTest = new HttpTest();
-        mcmAppointmentGateway =
+        this.httpTest = new HttpTest();
+        this.mcmAppointmentGateway =
             new McmAppointmentGateway(
-                baseUrl: "baseUrl",
+                "http://foo.com",
                 new AppointmentsFactory(),
                 new JobCodesFactory(),
                 "username",
                 "mcmPassword");
     }
 
-    public void Dispose()
-    {
-        httpTest.Dispose();
-    }
+    public void Dispose() => this.httpTest.Dispose();
 
     [Fact]
     public async Task ShouldThrowExceptionWhenMcmDoesNotReturn200()
     {
         var statusCode = 400;
         var badRequestMessage = "Bad request";
-        httpTest.RespondWith(badRequestMessage, statusCode);
+        this.httpTest.RespondWith(badRequestMessage, statusCode);
 
         Func<Task> act = async () =>
-            await mcmAppointmentGateway.GetAvailableAppointments("sorCode", "locationid", DateTime.Now);
+            await this.mcmAppointmentGateway.GetAvailableAppointments("sorCode", "locationid", DateTime.Now);
 
         await act.Should().ThrowExactlyAsync<FlurlHttpException>();
+    }
+
+    [Theory]
+    [JsonFileData("getAppointmentSlots.json", "error", typeof(GetSlotsResponse))]
+    public async Task ShouldThrowExceptionWhenMcmReturnsAnErrorInTheResponseBody(GetSlotsResponse response)
+    {
+        this.httpTest.RespondWithJson(response);
+
+        Func<Task> act = async () =>
+            await this.mcmAppointmentGateway.GetAvailableAppointments("sorCode", "locationid", DateTime.Now);
+
+        await act.Should().ThrowExactlyAsync<McmRequestError>();
     }
 }

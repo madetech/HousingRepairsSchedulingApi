@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain;
 using Dtos;
+using Exceptions;
 using Factories;
 using Flurl;
 using Flurl.Http;
@@ -39,6 +40,10 @@ public class McmAppointmentGateway : IAppointmentsGateway
             .WithBasicAuth(this.mcmUsername, this.mcmPassword).PostJsonAsync(getSlotsRequest)
             .ReceiveJson<GetSlotsResponse>();
 
+        if (response.StatusCode != "1")
+        {
+            throw new McmRequestError(response.StatusCode, response.StatusMessage);
+        }
 
         return this.appointmentsFactory.FromGetSlotsResponse(response);
     }
