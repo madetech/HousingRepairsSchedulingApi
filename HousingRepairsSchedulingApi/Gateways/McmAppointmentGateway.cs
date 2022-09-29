@@ -27,6 +27,12 @@ public class McmAppointmentGateway : IAppointmentsGateway
         this.mcmConfiguration = mcmConfiguration;
     }
 
+    // TODO: Make sure that we are only extracting 5 days worth of appointment slots
+    // Assumptions:
+    // * We can just hand in 15 `DaysAround` and that'll be fine. (Might require some tweaking)
+    // * PriorityCode, ExpenditureCode, 2 hour time slots etc. _can_ just be hardcoded.
+    // * We should be able to modify the `AppointmentsFactory` to take in a limit and a from date and get 5 days
+    // worth of time slots relatively easily.
     public async Task<IEnumerable<AppointmentSlot>> GetAvailableAppointments(string sorCode, string locationId,
         DateTime? fromDate = null)
     {
