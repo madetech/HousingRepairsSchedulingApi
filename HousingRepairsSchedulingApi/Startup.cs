@@ -2,6 +2,7 @@ namespace HousingRepairsSchedulingApi;
 
 using System;
 using System.ServiceModel;
+using Configuration;
 using Factories;
 using Gateways;
 using HousingRepairsOnline.Authentication.DependencyInjection;
@@ -51,11 +52,8 @@ public class Startup
                 // var appointmentSearchTimeSpanInDays = drsOptions.Value.SearchTimeSpanInDays;
                 // var appointmentLeadTimeInDays = drsOptions.Value.AppointmentLeadTimeInDays;
                 // var maximumNumberOfRequests = drsOptions.Value.MaximumNumberOfRequests;
-                var mcmUsername = Environment.GetEnvironmentVariable("MCM_USERNAME");
-                var mcmPassword = Environment.GetEnvironmentVariable("MCM_PASSWORD");
-                var mcmBaseUrl = Environment.GetEnvironmentVariable("MCM_BASEURL");
-                return new McmAppointmentGateway(mcmBaseUrl, new AppointmentsFactory(), new JobCodesFactory(),
-                    mcmUsername, mcmPassword);
+                return new McmAppointmentGateway(McmConfiguration.FromEnv(), new AppointmentsFactory(),
+                    new JobCodesFactory());
             }
         );
 

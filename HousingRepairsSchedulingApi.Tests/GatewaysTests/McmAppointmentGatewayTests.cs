@@ -2,6 +2,7 @@ namespace HousingRepairsSchedulingApi.Tests.GatewaysTests;
 
 using System;
 using System.Threading.Tasks;
+using Configuration;
 using Dtos;
 using Factories;
 using FluentAssertions;
@@ -21,11 +22,10 @@ public class McmAppointmentGatewayTests : IDisposable
         this.httpTest = new HttpTest();
         this.mcmAppointmentGateway =
             new McmAppointmentGateway(
-                "http://foo.com",
+                new McmConfiguration("http://foo.com", "username", "password"),
                 new AppointmentsFactory(),
-                new JobCodesFactory(),
-                "username",
-                "mcmPassword");
+                new JobCodesFactory()
+            );
     }
 
     public void Dispose() => this.httpTest.Dispose();
