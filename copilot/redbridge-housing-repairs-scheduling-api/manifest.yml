@@ -40,7 +40,17 @@ environments:
       AUTHENTICATION_IDENTIFIER: FOO
       JWT_SECRET: and0X3NlY3JldA
     network:
-      vpc:
+      vpc: 
         security_groups:
           deny_default: false
           groups: [sg-02c845b61c1cb0381]
+        placement:
+          subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
+  # production:
+    # network:
+    #   vpc: 
+    #     security_groups:
+    #       deny_default: false
+    #       groups: []
+    #     placement:
+    #       subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
