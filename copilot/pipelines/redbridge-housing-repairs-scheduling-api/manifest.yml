@@ -34,6 +34,11 @@ stages:
 
   - # The name of the environment.
     name: development
+    network:
+      vpc: 
+        placement:
+          subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
+
     # Optional: flag for manual approval action before deployment.
     # requires_approval: true
     # Optional: use test commands to validate this stage of your build.
@@ -41,6 +46,10 @@ stages:
 
   # - # The name of the environment.
   #   name: production
+  #   network:
+  #     vpc:
+  #       placement:
+  #         subnets: ['subnet-0b17ad7d48dbbbd52', 'subnet-0196644cdb97a19df', 'subnet-0b4d4369d97e7b962']
   #   # Optional: flag for manual approval action before deployment.
   #   # requires_approval: true
   #   # Optional: use test commands to validate this stage of your build.
