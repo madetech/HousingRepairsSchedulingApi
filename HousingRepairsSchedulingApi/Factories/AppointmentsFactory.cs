@@ -18,13 +18,14 @@ public class AppointmentsFactory
     // * All time slots are going to be 2 hours long in duration. (we shouldn't have any of the Sat AM or ALL descriptions)
     // * The timezone stuff doesn't actually matter
     // * if the above is true, we can just get the description back from the start time of the appointment.
-    public IEnumerable<AppointmentSlot> FromGetSlotsResponse(GetSlotsResponse response) =>
-        response.SlotDays.Where(day => day.NonBookingDay == false && day.ResourceCapacity > 0).SelectMany(day =>
-        {
-            var date = day.SlotDate;
+    public IEnumerable<AppointmentSlot> FromGetSlotsResponse(GetSlotsResponse response, int numDaysLimit) =>
+        response.SlotDays.Where(day => day.NonBookingDay == false && day.ResourceCapacity > 0).Take(numDaysLimit)
+            .SelectMany(day =>
+            {
+                var date = day.SlotDate;
 
-            return day.Slots.Where(slot => slot.AvailableSlotCapacity > 0 && slot.Bookable).Select(slot =>
-                new AppointmentSlot { StartTime = date.Add(slot.StartTime), EndTime = date.Add(slot.EndTime) }
-            );
-        });
+                return day.Slots.Where(slot => slot.AvailableSlotCapacity > 0 && slot.Bookable).Select(slot =>
+                    new AppointmentSlot { StartTime = date.Add(slot.StartTime), EndTime = date.Add(slot.EndTime) }
+                );
+            });
 }
