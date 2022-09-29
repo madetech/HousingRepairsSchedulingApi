@@ -13,6 +13,7 @@ using Flurl.Http;
 
 public class McmAppointmentGateway : IAppointmentsGateway
 {
+    private static readonly int numDaysLimit = 5;
     private readonly Url appointmentManagementUrl;
     private readonly AppointmentsFactory appointmentsFactory;
     private readonly JobCodesFactory jobCodesFactory;
@@ -49,7 +50,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
             throw new McmRequestError(response.StatusCode, response.StatusMessage);
         }
 
-        return this.appointmentsFactory.FromGetSlotsResponse(response);
+        return this.appointmentsFactory.FromGetSlotsResponse(response, numDaysLimit);
     }
 
     public Task<string> BookAppointment(string bookingReference, string sorCode, string locationId,

@@ -143,5 +143,132 @@
       "Active": false,
       "AppointmentArea": null
     }
+  },
+  "moreThanFiveDaysOfAppointments": {
+    "StatusCode": "1",
+    "StatusMessage": "SUCCESS",
+    "ContractReference": null,
+    "SlotDays": [
+      {
+        "SlotDate": "2022-09-25T00:00:00",
+        "ResourceCapacity": 0,
+        "NonBookingDay": false,
+        "Slots": []
+      },
+      {
+        "SlotDate": "2022-09-27T00:00:00",
+        "ResourceCapacity": 1,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "ALL",
+            "StartTime": "08:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 24,
+            "MaximumSlotCapacity": 33
+          }
+        ]
+      },
+      {
+        "SlotDate": "2022-09-28T00:00:00",
+        "ResourceCapacity": 1,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "ALL",
+            "StartTime": "08:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 24,
+            "MaximumSlotCapacity": 33
+          }
+        ]
+      },
+      {
+        "SlotDate": "2022-09-29T00:00:00",
+        "ResourceCapacity": 1,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "ALL",
+            "StartTime": "08:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 24,
+            "MaximumSlotCapacity": 33
+          }
+        ]
+      },
+      {
+        "SlotDate": "2022-09-30T00:00:00",
+        "ResourceCapacity": 1,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "ALL",
+            "StartTime": "08:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 24,
+            "MaximumSlotCapacity": 33
+          }
+        ]
+      },
+      {
+        "SlotDate": "2022-10-01T00:00:00",
+        "ResourceCapacity": 1,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "ALL",
+            "StartTime": "08:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 24,
+            "MaximumSlotCapacity": 33
+          }
+        ]
+      },
+      {
+        "SlotDate": "2022-10-02T00:00:00",
+        "ResourceCapacity": 1,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "ALL",
+            "StartTime": "08:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 24,
+            "MaximumSlotCapacity": 33
+          }
+        ]
+      },
+      {
+        "SlotDate": "2022-10-03T00:00:00",
+        "ResourceCapacity": 1,
+        "NonBookingDay": false,
+        "Slots": [
+          {
+            "Description": "ALL",
+            "StartTime": "08:00:00",
+            "EndTime": "17:00:00",
+            "Bookable": true,
+            "AvailableSlotCapacity": 24,
+            "MaximumSlotCapacity": 33
+          }
+        ]
+      }
+    ],
+    "GasComplianceDetails": null,
+    "CalendarCentralisationDetails": {
+      "CentralisedInJobPriorityDays": true,
+      "CentralDate": "2022-09-24T14:22:10.512Z"
+    },
+    "TradeAreaDetails": {
+      "Active": false,
+      "AppointmentArea": null
+    }
   }
 }
