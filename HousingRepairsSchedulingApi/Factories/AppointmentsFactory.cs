@@ -1,5 +1,6 @@
 namespace HousingRepairsSchedulingApi.Factories;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
@@ -18,8 +19,8 @@ public class AppointmentsFactory
     // * All time slots are going to be 2 hours long in duration. (we shouldn't have any of the Sat AM or ALL descriptions)
     // * The timezone stuff doesn't actually matter
     // * if the above is true, we can just get the description back from the start time of the appointment.
-    public IEnumerable<AppointmentSlot> FromGetSlotsResponse(GetSlotsResponse response, int numDaysLimit) =>
-        response.SlotDays.Where(day => day.NonBookingDay == false && day.ResourceCapacity > 0).Take(numDaysLimit)
+    public IEnumerable<AppointmentSlot> FromGetSlotsResponse(GetSlotsResponse response, int numDaysLimit, DateTime fromDate) =>
+        response.SlotDays.Where(day => day.NonBookingDay == false && day.ResourceCapacity > 0 && day.SlotDate >= fromDate.Date).Take(numDaysLimit)
             .SelectMany(day =>
             {
                 var date = day.SlotDate;
