@@ -37,8 +37,9 @@ public class McmAppointmentGateway : IAppointmentsGateway
     public async Task<IEnumerable<AppointmentSlot>> GetAvailableAppointments(string sorCode, string locationId,
         DateTime? fromDate = null)
     {
+        var earliestDate = fromDate ?? DateTime.Today.AddDays(1).Date;
         var jobCodes = this.jobCodesFactory.FromSorCode(sorCode);
-        var getSlotsRequest = new GetSlotsRequest(jobCodes, fromDate ?? DateTime.Today.AddDays(1), locationId);
+        var getSlotsRequest = new GetSlotsRequest(jobCodes, earliestDate, locationId);
 
         var response = await this.appointmentManagementUrl.AppendPathSegment("GetAvailableSlots")
             .WithBasicAuth(this.mcmConfiguration.Username, this.mcmConfiguration.Password)
@@ -50,7 +51,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
             throw new McmRequestError(response.StatusCode, response.StatusMessage);
         }
 
-        return this.appointmentsFactory.FromGetSlotsResponse(response, numDaysLimit);
+        return this.appointmentsFactory.FromGetSlotsResponse(response, numDaysLimit, earliestDate);
     }
 
     public Task<string> BookAppointment(string bookingReference, string sorCode, string locationId,

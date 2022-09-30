@@ -15,7 +15,7 @@ public class AppointmentsFactoryTests
     public void ShouldFilterOutAppointmentsThatAreNotBookable(GetSlotsResponse getSlotsResponse)
     {
         var appointmentsFactory = new AppointmentsFactory();
-        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5);
+        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, DateTime.MinValue);
 
         appointments.Should().HaveCount(7);
     }
@@ -47,7 +47,7 @@ public class AppointmentsFactoryTests
         var getSlotsResponse = JsonConvert.DeserializeObject<GetSlotsResponse>(responseJson);
 
         var appointmentsFactory = new AppointmentsFactory();
-        var appointment = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5).First();
+        var appointment = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, DateTime.MinValue).First();
 
         appointment.StartTime.Should().Be(DateTime.Parse("2022-09-26T08:00:00"));
         appointment.EndTime.Should().Be(DateTime.Parse("2022-09-26T17:00:00"));
@@ -58,7 +58,7 @@ public class AppointmentsFactoryTests
     public void ShouldFilterOutSlotsWithNoAvailability(GetSlotsResponse getSlotsResponse)
     {
         var appointmentsFactory = new AppointmentsFactory();
-        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5);
+        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, DateTime.MinValue);
 
         appointments.Should().HaveCount(1);
     }
@@ -70,8 +70,22 @@ public class AppointmentsFactoryTests
         var desiredNumberOfDays = 5;
 
         var appointmentsFactory = new AppointmentsFactory();
-        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, desiredNumberOfDays);
+        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, desiredNumberOfDays, DateTime.MinValue);
 
-        appointments.Select(appointment => appointment.StartTime.Day).Distinct().Should().HaveCountLessOrEqualTo(5);
+        appointments.Select(appointment => appointment.StartTime.Day).Distinct().Should().HaveCountLessOrEqualTo(desiredNumberOfDays);
     }
+
+    [Theory]
+    [JsonFileData("fixtures/getAppointmentSlots.json", "moreThanFiveDaysOfAppointments", typeof(GetSlotsResponse))]
+    public void ShouldFilterOutDaysBeforeFromDate(GetSlotsResponse getSlotsResponse)
+    {
+        var fromDate = DateTime.Parse("2022-09-30T00:00:00");
+
+        var appointmentsFactory = new AppointmentsFactory();
+        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, fromDate);
+
+        appointments.All(day => day.StartTime >= fromDate).Should().BeTrue();
+
+    }
+
 }
