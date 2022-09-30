@@ -6,5 +6,5 @@ public class JobCodesFactory
 {
     public JobCodes FromSorCode(string sorCode) =>
         // TODO: actual implementation
-        new() { SorCode = sorCode, TradeCode = "EL", PriorityCode = "R" };
+        new() { SorCode = sorCode, TradeCode = "EL" };
 }

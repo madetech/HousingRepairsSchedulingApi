@@ -12,7 +12,7 @@ public class GetSlotsRequest
         this.ContractType = "Response";
         this.ClientContractReference = null;
         this.TradesArray = jobCodes.TradeCode;
-        this.Priority = jobCodes.PriorityCode;
+        this.Priority = "R";
         this.AppointmentDateTime = appointmentDateTime;
         this.DaysAroundReturnedDate = 14;
         this.SlotDuration = 2;
