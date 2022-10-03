@@ -23,7 +23,6 @@ public class McmAppointmentGatewayTests : IDisposable
         this.mcmAppointmentGateway =
             new McmAppointmentGateway(
                 new McmConfiguration("http://foo.com", "username", "password"),
-                new AppointmentsFactory(),
                 new JobCodesFactory()
             );
     }

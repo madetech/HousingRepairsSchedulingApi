@@ -7,6 +7,7 @@ using Configuration;
 using Domain;
 using Dtos;
 using Exceptions;
+using Extensions;
 using Factories;
 using Flurl;
 using Flurl.Http;
@@ -15,14 +16,12 @@ public class McmAppointmentGateway : IAppointmentsGateway
 {
     private static readonly int numDaysLimit = 5;
     private readonly Url appointmentManagementUrl;
-    private readonly AppointmentsFactory appointmentsFactory;
     private readonly JobCodesFactory jobCodesFactory;
     private readonly McmConfiguration mcmConfiguration;
 
-    public McmAppointmentGateway(McmConfiguration mcmConfiguration, AppointmentsFactory appointmentsFactory,
+    public McmAppointmentGateway(McmConfiguration mcmConfiguration,
         JobCodesFactory jobCodesFactory)
     {
-        this.appointmentsFactory = appointmentsFactory;
         this.appointmentManagementUrl = mcmConfiguration.BaseUrl.AppendPathSegment("/api/AppointmentManagement");
         this.jobCodesFactory = jobCodesFactory;
         this.mcmConfiguration = mcmConfiguration;
@@ -48,7 +47,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
             throw new McmRequestError(response.StatusCode, response.StatusMessage);
         }
 
-        return this.appointmentsFactory.FromGetSlotsResponse(response, numDaysLimit, earliestDate);
+        return response.ToAppointmentSlots(numDaysLimit, earliestDate);
     }
 
     public Task<string> BookAppointment(string bookingReference, string sorCode, string locationId,
