@@ -54,7 +54,6 @@ public class Startup
                 // var appointmentSearchTimeSpanInDays = drsOptions.Value.SearchTimeSpanInDays;
                 // var appointmentLeadTimeInDays = drsOptions.Value.AppointmentLeadTimeInDays;
                 // var maximumNumberOfRequests = drsOptions.Value.MaximumNumberOfRequests;
-                // TODO: Read sorCodes from
                 return new McmAppointmentGateway(McmConfiguration.FromEnv(), sp.GetService<IJobCodesMapper>());
             }
         );
