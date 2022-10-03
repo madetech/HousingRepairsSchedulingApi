@@ -27,7 +27,3 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IJobCodesMapper, JobCodesMapper>(_ => new JobCodesMapper(jobCodes));
     }
 }
-
-public interface IFileSystem
-{
-}
