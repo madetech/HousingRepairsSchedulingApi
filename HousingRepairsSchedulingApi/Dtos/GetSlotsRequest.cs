@@ -1,6 +1,7 @@
 namespace HousingRepairsSchedulingApi.Dtos;
 
 using System;
+using Domain;
 
 public class GetSlotsRequest
 {

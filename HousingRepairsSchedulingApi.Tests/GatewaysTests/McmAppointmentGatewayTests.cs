@@ -3,13 +3,15 @@ namespace HousingRepairsSchedulingApi.Tests.GatewaysTests;
 using System;
 using System.Threading.Tasks;
 using Configuration;
+using Domain;
 using Dtos;
-using Factories;
 using FluentAssertions;
 using Flurl.Http;
 using Flurl.Http.Testing;
 using Gateways;
 using Gateways.Exceptions;
+using Helpers;
+using Moq;
 using Xunit;
 
 public class McmAppointmentGatewayTests : IDisposable
@@ -20,10 +22,15 @@ public class McmAppointmentGatewayTests : IDisposable
     public McmAppointmentGatewayTests()
     {
         this.httpTest = new HttpTest();
+        var jobCodesMapperMock = new Mock<IJobCodesMapper>();
+
+        jobCodesMapperMock.Setup(expression => expression.FromSorCode(It.IsAny<string>()))
+            .Returns(new JobCodes("sorcode", "jobcode"));
+
         this.mcmAppointmentGateway =
             new McmAppointmentGateway(
                 new McmConfiguration("http://foo.com", "username", "password"),
-                new JobCodesFactory()
+                jobCodesMapperMock.Object
             );
     }
 
