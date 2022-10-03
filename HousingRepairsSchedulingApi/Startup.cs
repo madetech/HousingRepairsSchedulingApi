@@ -3,8 +3,8 @@ namespace HousingRepairsSchedulingApi;
 using System;
 using System.ServiceModel;
 using Configuration;
-using Factories;
 using Gateways;
+using Helpers;
 using HousingRepairsOnline.Authentication.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,13 +46,16 @@ public class Startup
 
         services.AddTransient<IDrsService, DrsService>();
 
+        services.AddJobCodesMapper("jobCodes.json");
+
         services.AddTransient<IAppointmentsGateway, McmAppointmentGateway>(sp =>
             {
                 // var drsOptions = sp.GetRequiredService<IOptions<DrsOptions>>();
                 // var appointmentSearchTimeSpanInDays = drsOptions.Value.SearchTimeSpanInDays;
                 // var appointmentLeadTimeInDays = drsOptions.Value.AppointmentLeadTimeInDays;
                 // var maximumNumberOfRequests = drsOptions.Value.MaximumNumberOfRequests;
-                return new McmAppointmentGateway(McmConfiguration.FromEnv(), new JobCodesFactory());
+                // TODO: Read sorCodes from
+                return new McmAppointmentGateway(McmConfiguration.FromEnv(), sp.GetService<IJobCodesMapper>());
             }
         );
 

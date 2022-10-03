@@ -8,23 +8,22 @@ using Domain;
 using Dtos;
 using Exceptions;
 using Extensions;
-using Factories;
 using Flurl;
 using Flurl.Http;
+using Helpers;
 
 public class McmAppointmentGateway : IAppointmentsGateway
 {
-    private static readonly int numDaysLimit = 5;
+    private static readonly int NumDaysLimit = 5;
     private readonly Url appointmentManagementUrl;
-    private readonly JobCodesFactory jobCodesFactory;
+    private readonly IJobCodesMapper jobCodesMapper;
     private readonly McmConfiguration mcmConfiguration;
 
-    public McmAppointmentGateway(McmConfiguration mcmConfiguration,
-        JobCodesFactory jobCodesFactory)
+    public McmAppointmentGateway(McmConfiguration mcmConfiguration, IJobCodesMapper jobCodesMapper)
     {
         this.appointmentManagementUrl = mcmConfiguration.BaseUrl.AppendPathSegment("/api/AppointmentManagement");
-        this.jobCodesFactory = jobCodesFactory;
         this.mcmConfiguration = mcmConfiguration;
+        this.jobCodesMapper = jobCodesMapper;
     }
 
     // Assumptions:
@@ -34,7 +33,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
         DateTime? fromDate = null)
     {
         var earliestDate = fromDate ?? DateTime.Today.AddDays(1).Date;
-        var jobCodes = this.jobCodesFactory.FromSorCode(sorCode);
+        var jobCodes = this.jobCodesMapper.FromSorCode(sorCode);
         var getSlotsRequest = new GetSlotsRequest(jobCodes, earliestDate, locationId);
 
         var response = await this.appointmentManagementUrl.AppendPathSegment("GetAvailableSlots")
@@ -47,7 +46,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
             throw new McmRequestError(response.StatusCode, response.StatusMessage);
         }
 
-        return response.ToAppointmentSlots(numDaysLimit, earliestDate);
+        return response.ToAppointmentSlots(NumDaysLimit, earliestDate);
     }
 
     public Task<string> BookAppointment(string bookingReference, string sorCode, string locationId,
