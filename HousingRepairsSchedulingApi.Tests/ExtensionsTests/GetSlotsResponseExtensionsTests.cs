@@ -1,21 +1,20 @@
-namespace HousingRepairsSchedulingApi.Tests.FactoriesTests;
+namespace HousingRepairsSchedulingApi.Tests.ExtensionsTests;
 
 using System;
 using System.Linq;
 using Dtos;
-using Factories;
+using Extensions;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 
-public class AppointmentsFactoryTests
+public class GetSlotsResponseExtensionsTests
 {
     [Theory]
     [JsonFileData("fixtures/getAppointmentSlots.json", "twoDaysAround", typeof(GetSlotsResponse))]
     public void ShouldFilterOutAppointmentsThatAreNotBookable(GetSlotsResponse getSlotsResponse)
     {
-        var appointmentsFactory = new AppointmentsFactory();
-        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, DateTime.MinValue);
+        var appointments = getSlotsResponse.ToAppointmentSlots(5, DateTime.MinValue);
 
         appointments.Should().HaveCount(7);
     }
@@ -46,8 +45,7 @@ public class AppointmentsFactoryTests
     ]}";
         var getSlotsResponse = JsonConvert.DeserializeObject<GetSlotsResponse>(responseJson);
 
-        var appointmentsFactory = new AppointmentsFactory();
-        var appointment = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, DateTime.MinValue).First();
+        var appointment = getSlotsResponse.ToAppointmentSlots(5, DateTime.MinValue).First();
 
         appointment.StartTime.Should().Be(DateTime.Parse("2022-09-26T08:00:00"));
         appointment.EndTime.Should().Be(DateTime.Parse("2022-09-26T17:00:00"));
@@ -57,8 +55,7 @@ public class AppointmentsFactoryTests
     [JsonFileData("fixtures/getAppointmentSlots.json", "slotWithNoAvailability", typeof(GetSlotsResponse))]
     public void ShouldFilterOutSlotsWithNoAvailability(GetSlotsResponse getSlotsResponse)
     {
-        var appointmentsFactory = new AppointmentsFactory();
-        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, DateTime.MinValue);
+        var appointments = getSlotsResponse.ToAppointmentSlots(5, DateTime.MinValue);
 
         appointments.Should().HaveCount(1);
     }
@@ -69,10 +66,11 @@ public class AppointmentsFactoryTests
     {
         var desiredNumberOfDays = 5;
 
-        var appointmentsFactory = new AppointmentsFactory();
-        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, desiredNumberOfDays, DateTime.MinValue);
+        var appointments =
+            getSlotsResponse.ToAppointmentSlots(desiredNumberOfDays, DateTime.MinValue);
 
-        appointments.Select(appointment => appointment.StartTime.Day).Distinct().Should().HaveCountLessOrEqualTo(desiredNumberOfDays);
+        appointments.Select(appointment => appointment.StartTime.Day).Distinct().Should()
+            .HaveCountLessOrEqualTo(desiredNumberOfDays);
     }
 
     [Theory]
@@ -81,11 +79,8 @@ public class AppointmentsFactoryTests
     {
         var fromDate = DateTime.Parse("2022-09-30T00:00:00");
 
-        var appointmentsFactory = new AppointmentsFactory();
-        var appointments = appointmentsFactory.FromGetSlotsResponse(getSlotsResponse, 5, fromDate);
+        var appointments = getSlotsResponse.ToAppointmentSlots(5, fromDate);
 
         appointments.All(day => day.StartTime >= fromDate).Should().BeTrue();
-
     }
-
 }
