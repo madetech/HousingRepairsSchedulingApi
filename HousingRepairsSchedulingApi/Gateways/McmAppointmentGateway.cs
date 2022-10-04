@@ -50,6 +50,5 @@ public class McmAppointmentGateway : IAppointmentsGateway
     }
 
     public Task<string> BookAppointment(string bookingReference, SorCode sorCode, AddressUprn addressUprn,
-        AppointmentSlot appointmentSlot, Contact contact, string jobDescription) =>
-        throw new NotImplementedException();
+        AppointmentSlot appointmentSlot, Contact contact, string jobDescription) => Task.FromResult(bookingReference);
 }
