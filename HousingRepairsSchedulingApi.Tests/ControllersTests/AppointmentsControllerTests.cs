@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Controllers;
 using Domain;
+using Dtos.Hro;
 using FluentAssertions;
 using Moq;
 using UseCases;
@@ -13,6 +14,7 @@ public class AppointmentsControllerTests : ControllerTests
 {
     private const string SampleLocationId = "locationId";
     private const string SampleSorCode = "SOR Code";
+
     private readonly Mock<IRetrieveAvailableAppointmentsUseCase> availableAppointmentsUseCaseMock;
     private readonly Mock<IBookAppointmentUseCase> bookAppointmentUseCaseMock;
     private readonly AppointmentsController systemUndertest;
@@ -24,6 +26,20 @@ public class AppointmentsControllerTests : ControllerTests
         this.systemUndertest = new AppointmentsController(this.availableAppointmentsUseCaseMock.Object,
             this.bookAppointmentUseCaseMock.Object);
     }
+
+    // Should replace with Faker
+    private static BookAppointmentRequest sampleBookAppointmentRequest() => new()
+    {
+        Reference = "reference",
+        LocationId = SampleLocationId,
+        SorCode = SampleSorCode,
+        Appointment = new Appointment { StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) },
+        ContactDetails = new ContactDetails
+        {
+            Email = "test@test.com", PhoneNumber = "01237890765", Name = "Test Testsson"
+        },
+        JobDescription = "There's a snake in my boot"
+    };
 
     [Fact]
     public async Task TestAvailableAppointmentsEndpoint()
@@ -52,13 +68,8 @@ public class AppointmentsControllerTests : ControllerTests
     [Fact]
     public async Task TestBookAppointmentEndpoint()
     {
-        const string bookingReference = "bookingReference";
-        var startDateTime = It.IsAny<DateTime>();
-        var endDateTime = It.IsAny<DateTime>();
-
         var result =
-            await this.systemUndertest.BookAppointment(bookingReference, SampleSorCode, SampleLocationId, startDateTime,
-                endDateTime);
+            await this.systemUndertest.BookAppointment(sampleBookAppointmentRequest());
         GetStatusCode(result).Should().Be(200);
     }
 
@@ -84,18 +95,13 @@ public class AppointmentsControllerTests : ControllerTests
     [Fact]
     public async Task ReturnsErrorWhenFailsToBookAppointments()
     {
-        const string bookingReference = "bookingReference";
-        var startDateTime = It.IsAny<DateTime>();
-        var endDateTime = It.IsAny<DateTime>();
-
         const string errorMessage = "An error message";
         this.bookAppointmentUseCaseMock
             .Setup(x => x.Execute(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(),
                 It.IsAny<DateTime>())).Throws(new Exception(errorMessage));
 
         var result =
-            await this.systemUndertest.BookAppointment(bookingReference, SampleSorCode, SampleLocationId, startDateTime,
-                endDateTime);
+            await this.systemUndertest.BookAppointment(sampleBookAppointmentRequest());
 
         GetStatusCode(result).Should().Be(500);
         GetResultData<string>(result).Should().Be(errorMessage);
