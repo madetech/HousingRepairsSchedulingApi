@@ -29,12 +29,12 @@ public class McmAppointmentGateway : IAppointmentsGateway
     // Assumptions:
     // * We can just hand in 15 `DaysAround` and that'll be fine. (Might require some tweaking)
     // * PriorityCode, ExpenditureCode, 2 hour time slots etc. _can_ just be hardcoded.
-    public async Task<IEnumerable<AppointmentSlot>> GetAvailableAppointments(string sorCode, string locationId,
+    public async Task<IEnumerable<AppointmentSlot>> GetAvailableAppointments(SorCode sorCode, AddressUprn addressUprn,
         DateTime? fromDate = null)
     {
         var earliestDate = fromDate ?? DateTime.Today.AddDays(1).Date;
         var jobCodes = this.jobCodesMapper.FromSorCode(sorCode);
-        var getSlotsRequest = new GetSlotsRequest(jobCodes, earliestDate, locationId);
+        var getSlotsRequest = new GetSlotsRequest(jobCodes, earliestDate, addressUprn);
 
         var response = await this.appointmentManagementUrl.AppendPathSegment("GetAvailableSlots")
             .WithBasicAuth(this.mcmConfiguration.Username, this.mcmConfiguration.Password)

@@ -11,13 +11,13 @@ public class JobCodesMapper : IJobCodesMapper
 
     public JobCodesMapper(JsonDocument jobCodes) => this.jobCodes = jobCodes;
 
-    public JobCodes FromSorCode(string sorCode)
+    public JobCodes FromSorCode(SorCode sorCode)
     {
         string tradeCode;
 
         try
         {
-            tradeCode = this.jobCodes.RootElement.GetProperty(sorCode).GetString();
+            tradeCode = this.jobCodes.RootElement.GetProperty(sorCode.ToString()).GetString();
         }
         catch (Exception e)
         {

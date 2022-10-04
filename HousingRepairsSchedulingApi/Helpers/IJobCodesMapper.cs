@@ -1,8 +1,9 @@
 namespace HousingRepairsSchedulingApi.Helpers;
 
 using Domain;
+using JetBrains.Annotations;
 
 public interface IJobCodesMapper
 {
-    public JobCodes FromSorCode(string sorCode);
+    public JobCodes FromSorCode([NotNull] SorCode sorCode);
 }
