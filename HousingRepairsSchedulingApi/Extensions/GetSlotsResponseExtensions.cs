@@ -25,11 +25,11 @@ public static class GetSlotsResponseExtensions
             .Where(day => day.NonBookingDay == false && day.ResourceCapacity > 0 && day.SlotDate >= fromDate.Date)
             .Take(numDaysLimit)
             .SelectMany(day =>
-            {
-                var date = day.SlotDate;
+                {
+                    var date = day.SlotDate;
 
-                return day.Slots.Where(slot => slot.AvailableSlotCapacity > 0 && slot.Bookable).Select(slot =>
-                    new AppointmentSlot { StartTime = date.Add(slot.StartTime), EndTime = date.Add(slot.EndTime) }
-                );
-            });
+                    return day.Slots.Where(slot => slot.AvailableSlotCapacity > 0 && slot.Bookable).Select(slot =>
+                        new AppointmentSlot(date.Add(slot.StartTime), date.Add(slot.EndTime)));
+                }
+            );
 }
