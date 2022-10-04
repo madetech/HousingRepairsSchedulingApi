@@ -36,8 +36,7 @@ public class DummyAppointmentsGateway : IAppointmentsGateway
         return orderedAppointments;
     }
 
-    public Task<string> BookAppointment(string bookingReference, string sorCode, string locationId,
-        DateTime startDateTime,
-        DateTime endDateTime) =>
+    public Task<string> BookAppointment(string bookingReference, SorCode sorCode, AddressUprn addressUprn,
+        AppointmentSlot appointmentSlot, Contact contact, string jobDescription) =>
         throw new NotImplementedException();
 }

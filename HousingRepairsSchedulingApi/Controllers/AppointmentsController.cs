@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Domain;
 using Dtos.Hro;
+using Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Sentry;
 using UseCases;
@@ -47,9 +48,9 @@ public class AppointmentsController : ControllerBase
         try
         {
             var result = await this.bookAppointmentUseCase.Execute(bookAppointmentRequest.Reference,
-                bookAppointmentRequest.SorCode, bookAppointmentRequest.LocationId,
-                bookAppointmentRequest.Appointment.StartTime,
-                bookAppointmentRequest.Appointment.EndTime);
+                bookAppointmentRequest.GetSorCode(), bookAppointmentRequest.GetAddressUprn(),
+                bookAppointmentRequest.GetAppointmentSlot(),
+                bookAppointmentRequest.GetContact(), bookAppointmentRequest.JobDescription);
 
             return this.Ok(result);
         }
