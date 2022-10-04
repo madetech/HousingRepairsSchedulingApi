@@ -1,9 +1,9 @@
-namespace HousingRepairsSchedulingApi.Dtos;
+namespace HousingRepairsSchedulingApi.Dtos.Mcm;
 
 using System;
 using Domain;
 
-public class GetSlotsRequest
+public record GetSlotsRequest
 {
     // TODO: Remove hardcoding of values
     public GetSlotsRequest(JobCodes jobCodes, DateTime appointmentDateTime, AddressUprn addressUprn)

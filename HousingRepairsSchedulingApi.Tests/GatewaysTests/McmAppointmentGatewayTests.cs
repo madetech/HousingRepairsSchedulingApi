@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Configuration;
 using Domain;
-using Dtos;
+using Dtos.Mcm;
 using FluentAssertions;
 using Flurl.Http;
 using Flurl.Http.Testing;
