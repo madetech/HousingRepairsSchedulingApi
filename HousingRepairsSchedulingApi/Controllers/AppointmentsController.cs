@@ -3,6 +3,7 @@ namespace HousingRepairsSchedulingApi.Controllers;
 using System;
 using System.Threading.Tasks;
 using Domain;
+using Dtos.Hro;
 using Microsoft.AspNetCore.Mvc;
 using Sentry;
 using UseCases;
@@ -41,16 +42,14 @@ public class AppointmentsController : ControllerBase
 
     [HttpPost]
     [Route("BookAppointment")]
-    public async Task<IActionResult> BookAppointment([FromQuery] string bookingReference,
-        [FromQuery] string sorCode,
-        [FromQuery] string locationId,
-        [FromQuery] DateTime startDateTime,
-        [FromQuery] DateTime endDateTime)
+    public async Task<IActionResult> BookAppointment([FromBody] BookAppointmentRequest bookAppointmentRequest)
     {
         try
         {
-            var result = await this.bookAppointmentUseCase.Execute(bookingReference, sorCode, locationId, startDateTime,
-                endDateTime);
+            var result = await this.bookAppointmentUseCase.Execute(bookAppointmentRequest.Reference,
+                bookAppointmentRequest.SorCode, bookAppointmentRequest.LocationId,
+                bookAppointmentRequest.Appointment.StartTime,
+                bookAppointmentRequest.Appointment.EndTime);
 
             return this.Ok(result);
         }
