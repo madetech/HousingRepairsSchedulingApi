@@ -25,4 +25,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Services\Drs\ServiceReference\dotnet-svcutil.params.json" />
+  </ItemGroup>
+
 </Project>

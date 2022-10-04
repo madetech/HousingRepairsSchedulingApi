@@ -11,15 +11,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Services.Drs;
 using UseCases;
 
 public class Startup
 {
     private const string HousingRepairsSchedulingApiIssuerId = "Housing Management System Api";
-    private const string DrsOptionsApiAddressConfigurationKey = nameof(DrsOptions.ApiAddress);
 
     public Startup(IConfiguration configuration) => this.Configuration = configuration;
 
@@ -36,15 +33,6 @@ public class Startup
 
         this.ConfigureOptions(services);
 
-        services.AddScoped<SOAP>(sp =>
-        {
-            var drsOptions = sp.GetRequiredService<IOptions<DrsOptions>>();
-            var apiAddress = drsOptions.Value.ApiAddress;
-            var binding = CreateBinding(apiAddress);
-            return new SOAPClient(binding, new EndpointAddress(apiAddress));
-        });
-
-        services.AddTransient<IDrsService, DrsService>();
 
         services.AddJobCodesMapper("jobCodes.json");
 
@@ -98,27 +86,6 @@ public class Startup
 
     private void ConfigureOptions(IServiceCollection services)
     {
-        var drsOptionsConfiguration = this.Configuration.GetSection(nameof(DrsOptions));
-
-        if (string.IsNullOrEmpty(drsOptionsConfiguration[DrsOptionsApiAddressConfigurationKey]))
-        {
-            throw new InvalidOperationException(
-                $"Incorrect configuration: {nameof(DrsOptions)}.{DrsOptionsApiAddressConfigurationKey} is a required configuration.");
-        }
-
-        if (string.IsNullOrEmpty(drsOptionsConfiguration["Login"]))
-        {
-            throw new InvalidOperationException(
-                $"Incorrect configuration: {nameof(DrsOptions)}.{nameof(DrsOptions.Login)} is a required configuration.");
-        }
-
-        if (string.IsNullOrEmpty(drsOptionsConfiguration["Password"]))
-        {
-            throw new InvalidOperationException(
-                $"Incorrect configuration: {nameof(DrsOptions)}.{nameof(DrsOptions.Password)} is a required configuration.");
-        }
-
-        services.Configure<DrsOptions>(drsOptionsConfiguration);
     }
 
     private static HttpBindingBase CreateBinding(Uri uri)
