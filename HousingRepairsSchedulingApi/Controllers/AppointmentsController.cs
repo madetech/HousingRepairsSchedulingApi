@@ -1,60 +1,63 @@
-namespace HousingRepairsSchedulingApi.Controllers
+namespace HousingRepairsSchedulingApi.Controllers;
+
+using System;
+using System.Threading.Tasks;
+using Domain;
+using Microsoft.AspNetCore.Mvc;
+using Sentry;
+using UseCases;
+
+[ApiController]
+[Route("[controller]")]
+public class AppointmentsController : ControllerBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Sentry;
-    using UseCases;
+    private readonly IBookAppointmentUseCase bookAppointmentUseCase;
+    private readonly IRetrieveAvailableAppointmentsUseCase retrieveAvailableAppointmentsUseCase;
 
-    [ApiController]
-    [Route("[controller]")]
-    public class AppointmentsController : ControllerBase
+    public AppointmentsController(IRetrieveAvailableAppointmentsUseCase retrieveAvailableAppointmentsUseCase,
+        IBookAppointmentUseCase bookAppointmentUseCase)
     {
-        private readonly IRetrieveAvailableAppointmentsUseCase retrieveAvailableAppointmentsUseCase;
-        private readonly IBookAppointmentUseCase bookAppointmentUseCase;
+        this.retrieveAvailableAppointmentsUseCase = retrieveAvailableAppointmentsUseCase;
+        this.bookAppointmentUseCase = bookAppointmentUseCase;
+    }
 
-        public AppointmentsController(IRetrieveAvailableAppointmentsUseCase retrieveAvailableAppointmentsUseCase,
-            IBookAppointmentUseCase bookAppointmentUseCase)
+    [HttpGet]
+    [Route("AvailableAppointments")]
+    public async Task<IActionResult> AvailableAppointments([FromQuery] string sorCode, [FromQuery] string locationId,
+        [FromQuery] DateTime? fromDate = null)
+    {
+        try
         {
-            this.retrieveAvailableAppointmentsUseCase = retrieveAvailableAppointmentsUseCase;
-            this.bookAppointmentUseCase = bookAppointmentUseCase;
+            var result = await this.retrieveAvailableAppointmentsUseCase.Execute(SorCode.Parse(sorCode),
+                AddressUprn.Parse(locationId), fromDate);
+            return this.Ok(result);
         }
-
-        [HttpGet]
-        [Route("AvailableAppointments")]
-        public async Task<IActionResult> AvailableAppointments([FromQuery] string sorCode, [FromQuery] string locationId, [FromQuery] DateTime? fromDate = null)
+        catch (Exception ex)
         {
-            try
-            {
-                var result = await retrieveAvailableAppointmentsUseCase.Execute(sorCode, locationId, fromDate);
-                return this.Ok(result);
-            }
-            catch (Exception ex)
-            {
-                SentrySdk.CaptureException(ex);
-                return StatusCode(500, ex.Message);
-            }
+            SentrySdk.CaptureException(ex);
+            return this.StatusCode(500, ex.Message);
         }
+    }
 
-        [HttpPost]
-        [Route("BookAppointment")]
-        public async Task<IActionResult> BookAppointment([FromQuery] string bookingReference,
-            [FromQuery] string sorCode,
-            [FromQuery] string locationId,
-            [FromQuery] DateTime startDateTime,
-            [FromQuery] DateTime endDateTime)
+    [HttpPost]
+    [Route("BookAppointment")]
+    public async Task<IActionResult> BookAppointment([FromQuery] string bookingReference,
+        [FromQuery] string sorCode,
+        [FromQuery] string locationId,
+        [FromQuery] DateTime startDateTime,
+        [FromQuery] DateTime endDateTime)
+    {
+        try
         {
-            try
-            {
-                var result = await bookAppointmentUseCase.Execute(bookingReference, sorCode, locationId, startDateTime, endDateTime);
+            var result = await this.bookAppointmentUseCase.Execute(bookingReference, sorCode, locationId, startDateTime,
+                endDateTime);
 
-                return this.Ok(result);
-            }
-            catch (Exception ex)
-            {
-                SentrySdk.CaptureException(ex);
-                return StatusCode(500, ex.Message);
-            }
+            return this.Ok(result);
+        }
+        catch (Exception ex)
+        {
+            SentrySdk.CaptureException(ex);
+            return this.StatusCode(500, ex.Message);
         }
     }
 }

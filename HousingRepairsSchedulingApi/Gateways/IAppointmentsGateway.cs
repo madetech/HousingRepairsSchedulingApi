@@ -1,15 +1,17 @@
+namespace HousingRepairsSchedulingApi.Gateways;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain;
+using JetBrains.Annotations;
 
-namespace HousingRepairsSchedulingApi.Gateways
+public interface IAppointmentsGateway
 {
-    using Domain;
+    Task<IEnumerable<AppointmentSlot>> GetAvailableAppointments([NotNull] SorCode sorCode,
+        [NotNull] AddressUprn addressUprn,
+        DateTime? fromDate = null);
 
-    public interface IAppointmentsGateway
-    {
-        Task<IEnumerable<AppointmentSlot>> GetAvailableAppointments(string sorCode, string locationId, DateTime? fromDate = null);
-
-        Task<string> BookAppointment(string bookingReference, string sorCode, string locationId, DateTime startDateTime, DateTime endDateTime);
-    }
+    Task<string> BookAppointment(string bookingReference, string sorCode, string locationId, DateTime startDateTime,
+        DateTime endDateTime);
 }

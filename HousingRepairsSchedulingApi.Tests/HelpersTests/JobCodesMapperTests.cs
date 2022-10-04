@@ -1,8 +1,10 @@
+namespace HousingRepairsSchedulingApi.Tests.HelpersTests;
+
 using System.Text.Json;
+using Domain;
 using FluentAssertions;
-using HousingRepairsSchedulingApi.Helpers;
-using HousingRepairsSchedulingApi.Helpers.Exceptions;
-using HousingRepairsSchedulingApi.Tests;
+using Helpers;
+using Helpers.Exceptions;
 using Xunit;
 
 public class JobCodesMapperTests
@@ -14,7 +16,7 @@ public class JobCodesMapperTests
         var jobCodesJson = JsonDocument.Parse(jobCodesRaw);
         var jobCodesMapper = new JobCodesMapper(jobCodesJson);
 
-        var sorCode = "123456";
+        var sorCode = SorCode.Parse("123456");
         var tradeCode = "EL";
 
         var jobCodes = jobCodesMapper.FromSorCode(sorCode);
@@ -30,7 +32,7 @@ public class JobCodesMapperTests
         var jobCodesJson = JsonDocument.Parse(jobCodesRaw);
         var jobCodesMapper = new JobCodesMapper(jobCodesJson);
 
-        var unknownSorCode = "unknown";
+        var unknownSorCode = SorCode.Parse("unknown");
 
         var act = () =>
             jobCodesMapper.FromSorCode(unknownSorCode);

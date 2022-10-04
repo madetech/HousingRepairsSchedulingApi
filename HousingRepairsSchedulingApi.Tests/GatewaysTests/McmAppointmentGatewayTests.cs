@@ -24,8 +24,8 @@ public class McmAppointmentGatewayTests : IDisposable
         this.httpTest = new HttpTest();
         var jobCodesMapperMock = new Mock<IJobCodesMapper>();
 
-        jobCodesMapperMock.Setup(expression => expression.FromSorCode(It.IsAny<string>()))
-            .Returns(new JobCodes("sorcode", "jobcode"));
+        jobCodesMapperMock.Setup(expression => expression.FromSorCode(It.IsAny<SorCode>()))
+            .Returns(new JobCodes(SorCode.Parse("sorcode"), "jobcode"));
 
         this.mcmAppointmentGateway =
             new McmAppointmentGateway(
@@ -44,7 +44,8 @@ public class McmAppointmentGatewayTests : IDisposable
         this.httpTest.RespondWith(badRequestMessage, statusCode);
 
         Func<Task> act = async () =>
-            await this.mcmAppointmentGateway.GetAvailableAppointments("sorCode", "locationid", DateTime.Now);
+            await this.mcmAppointmentGateway.GetAvailableAppointments(SorCode.Parse("sorCode"),
+                AddressUprn.Parse("uprn"), DateTime.Now);
 
         await act.Should().ThrowExactlyAsync<FlurlHttpException>();
     }
@@ -56,7 +57,8 @@ public class McmAppointmentGatewayTests : IDisposable
         this.httpTest.RespondWithJson(response);
 
         Func<Task> act = async () =>
-            await this.mcmAppointmentGateway.GetAvailableAppointments("sorCode", "locationid", DateTime.Now);
+            await this.mcmAppointmentGateway.GetAvailableAppointments(SorCode.Parse("sorCode"),
+                AddressUprn.Parse("locationid"), DateTime.Now);
 
         await act.Should().ThrowExactlyAsync<McmRequestError>();
     }

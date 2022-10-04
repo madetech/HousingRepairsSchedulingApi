@@ -6,7 +6,7 @@ using Domain;
 public class GetSlotsRequest
 {
     // TODO: Remove hardcoding of values
-    public GetSlotsRequest(JobCodes jobCodes, DateTime appointmentDateTime, string addressUprn)
+    public GetSlotsRequest(JobCodes jobCodes, DateTime appointmentDateTime, AddressUprn addressUprn)
     {
         this.ClientSystemUser = "Made Tech";
         this.OperationMode = 0;
@@ -18,7 +18,7 @@ public class GetSlotsRequest
         this.DaysAroundReturnedDate = 14;
         this.SlotDuration = 2;
         this.CapacityWeightingOption = "CapacityOptionNormal";
-        this.AddressCode = addressUprn;
+        this.AddressCode = addressUprn.ToString();
         this.IncludeCalendarCentralisationDetails = true;
         this.IncludeTradeAreaDetails = true;
     }

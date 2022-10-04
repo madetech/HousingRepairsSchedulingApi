@@ -1,12 +1,14 @@
-namespace HousingRepairsSchedulingApi.UseCases
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using HACT.Dtos;
+namespace HousingRepairsSchedulingApi.UseCases;
 
-    public interface IRetrieveAvailableAppointmentsUseCase
-    {
-        public Task<IEnumerable<Appointment>> Execute(string sorCode, string locationId, DateTime? fromDate);
-    }
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Domain;
+using HACT.Dtos;
+using JetBrains.Annotations;
+
+public interface IRetrieveAvailableAppointmentsUseCase
+{
+    public Task<IEnumerable<Appointment>> Execute([NotNull] SorCode sorCode, [NotNull] AddressUprn addressUprn,
+        DateTime? fromDate);
 }

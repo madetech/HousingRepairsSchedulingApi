@@ -1,33 +1,28 @@
-namespace HousingRepairsSchedulingApi.UseCases
+namespace HousingRepairsSchedulingApi.UseCases;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Domain;
+using Gateways;
+using HACT.Dtos;
+
+public class RetrieveAvailableAppointmentsUseCase : IRetrieveAvailableAppointmentsUseCase
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Ardalis.GuardClauses;
-    using Domain;
-    using Gateways;
-    using HACT.Dtos;
+    private readonly IAppointmentsGateway appointmentsGateway;
 
-    public class RetrieveAvailableAppointmentsUseCase : IRetrieveAvailableAppointmentsUseCase
+    public RetrieveAvailableAppointmentsUseCase(IAppointmentsGateway appointmentsGateway) =>
+        this.appointmentsGateway = appointmentsGateway;
+
+    public async Task<IEnumerable<Appointment>> Execute(SorCode sorCode, AddressUprn addressUprn,
+        DateTime? fromDate = null)
     {
-        private readonly IAppointmentsGateway appointmentsGateway;
+        var availableAppointments =
+            await this.appointmentsGateway.GetAvailableAppointments(sorCode, addressUprn, fromDate);
 
-        public RetrieveAvailableAppointmentsUseCase(IAppointmentsGateway appointmentsGateway)
-        {
-            this.appointmentsGateway = appointmentsGateway;
-        }
+        var result = availableAppointments.Select(x => x.ToHactAppointment());
 
-        public async Task<IEnumerable<Appointment>> Execute(string sorCode, string locationId, DateTime? fromDate = null)
-        {
-            Guard.Against.NullOrWhiteSpace(sorCode, nameof(sorCode));
-            Guard.Against.NullOrWhiteSpace(locationId, nameof(locationId));
-
-            var availableAppointments = await appointmentsGateway.GetAvailableAppointments(sorCode, locationId, fromDate);
-
-            var result = availableAppointments.Select(x => x.ToHactAppointment());
-
-            return result;
-        }
+        return result;
     }
 }
