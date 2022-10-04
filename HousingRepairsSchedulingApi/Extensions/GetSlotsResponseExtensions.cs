@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
-using Dtos;
+using Dtos.Mcm;
 
 public static class GetSlotsResponseExtensions
 {

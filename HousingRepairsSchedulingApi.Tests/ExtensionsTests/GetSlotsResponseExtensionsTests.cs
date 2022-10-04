@@ -2,7 +2,7 @@ namespace HousingRepairsSchedulingApi.Tests.ExtensionsTests;
 
 using System;
 using System.Linq;
-using Dtos;
+using Dtos.Mcm;
 using Extensions;
 using FluentAssertions;
 using Newtonsoft.Json;

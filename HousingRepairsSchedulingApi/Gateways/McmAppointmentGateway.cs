@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Configuration;
 using Domain;
-using Dtos;
+using Dtos.Mcm;
 using Exceptions;
 using Extensions;
 using Flurl;
