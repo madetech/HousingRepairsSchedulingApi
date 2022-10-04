@@ -39,9 +39,6 @@ environments:
     variables:
       AUTHENTICATION_IDENTIFIER: FOO
       JWT_SECRET: and0X3NlY3JldA
-      DrsOptions__ApiAddress: https://foo
-      DrsOptions__Login: Foo
-      DrsOptions__Password: Foo
     network:
       vpc:
         security_groups:
