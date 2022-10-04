@@ -1,11 +1,12 @@
-namespace HousingRepairsSchedulingApi.UseCases
-{
-    using System;
-    using System.Threading.Tasks;
+namespace HousingRepairsSchedulingApi.UseCases;
 
-    public interface IBookAppointmentUseCase
-    {
-        public Task<string> Execute(string bookingReference, string sorCode, string locationId,
-            DateTime startDateTime, DateTime endDateTime);
-    }
+using System.Threading.Tasks;
+using Domain;
+using JetBrains.Annotations;
+
+public interface IBookAppointmentUseCase
+{
+    public Task<string> Execute([NotNull] string bookingReference, [NotNull] SorCode sorCode,
+        [NotNull] AddressUprn addressUprn,
+        [NotNull] AppointmentSlot appointmentSlot, [NotNull] Contact contact, string jobDescription);
 }

@@ -97,8 +97,9 @@ public class AppointmentsControllerTests : ControllerTests
     {
         const string errorMessage = "An error message";
         this.bookAppointmentUseCaseMock
-            .Setup(x => x.Execute(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(),
-                It.IsAny<DateTime>())).Throws(new Exception(errorMessage));
+            .Setup(x => x.Execute(It.IsAny<string>(), It.IsAny<SorCode>(), It.IsAny<AddressUprn>(),
+                It.IsAny<AppointmentSlot>(),
+                It.IsAny<Contact>(), It.IsAny<string>())).Throws(new Exception(errorMessage));
 
         var result =
             await this.systemUndertest.BookAppointment(sampleBookAppointmentRequest());

@@ -12,6 +12,7 @@ public interface IAppointmentsGateway
         [NotNull] AddressUprn addressUprn,
         DateTime? fromDate = null);
 
-    Task<string> BookAppointment(string bookingReference, string sorCode, string locationId, DateTime startDateTime,
-        DateTime endDateTime);
+    Task<string> BookAppointment([NotNull] string bookingReference, [NotNull] SorCode sorCode,
+        [NotNull] AddressUprn addressUprn,
+        [NotNull] AppointmentSlot appointmentSlot, [NotNull] Contact contact, string jobDescription);
 }
