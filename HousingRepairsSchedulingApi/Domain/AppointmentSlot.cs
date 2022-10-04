@@ -1,10 +1,17 @@
-namespace HousingRepairsSchedulingApi.Domain
-{
-    using System;
+namespace HousingRepairsSchedulingApi.Domain;
 
-    public class AppointmentSlot
+using System;
+using Ardalis.GuardClauses;
+
+public class AppointmentSlot
+{
+    public AppointmentSlot(DateTime startTime, DateTime endTime)
     {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        Guard.Against.OutOfRange(endTime, nameof(endTime), startTime, DateTime.MaxValue);
+        this.StartTime = startTime;
+        this.EndTime = endTime;
     }
+
+    public DateTime StartTime { get; }
+    public DateTime EndTime { get; }
 }
