@@ -34,10 +34,7 @@ public class AppointmentsControllerTests : ControllerTests
         LocationId = SampleLocationId,
         SorCode = SampleSorCode,
         Appointment = new Appointment { StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) },
-        ContactDetails = new ContactDetails
-        {
-            Email = "test@test.com", PhoneNumber = "01237890765", Name = "Test Testsson"
-        },
+        ContactDetails = new ContactDetails { Email = "test@test.com", PhoneNumber = "01237890765" },
         JobDescription = "There's a snake in my boot"
     };
 
