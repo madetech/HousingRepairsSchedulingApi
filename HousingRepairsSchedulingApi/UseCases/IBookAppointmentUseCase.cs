@@ -1,8 +1,8 @@
 namespace HousingRepairsSchedulingApi.UseCases;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Domain;
-using JetBrains.Annotations;
 
 public interface IBookAppointmentUseCase
 {

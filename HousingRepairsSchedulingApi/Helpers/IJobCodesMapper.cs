@@ -1,7 +1,7 @@
 namespace HousingRepairsSchedulingApi.Helpers;
 
+using System.Diagnostics.CodeAnalysis;
 using Domain;
-using JetBrains.Annotations;
 
 public interface IJobCodesMapper
 {
