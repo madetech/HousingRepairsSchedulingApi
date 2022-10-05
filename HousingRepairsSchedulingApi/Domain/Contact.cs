@@ -6,7 +6,7 @@ namespace HousingRepairsSchedulingApi.Domain;
 /// </summary>
 public class Contact
 {
-    public Contact(string name, string phoneNumber, string notificationMobileNumber, string notificationEmail)
+    public Contact(string phoneNumber, string notificationMobileNumber, string notificationEmail)
     {
         this.PhoneNumber = phoneNumber;
         this.NotificationMobileNumber = notificationMobileNumber;
