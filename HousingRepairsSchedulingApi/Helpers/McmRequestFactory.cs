@@ -40,4 +40,21 @@ public class McmRequestFactory
             Trade = jobCodes.TradeCode,
             JobLines = new List<JobLine> { new() { ScheduleCode = jobCodes.SorCode.ToString(), Quantity = 1 } }
         };
+
+    public BookAppointmentRequest BookAppointmentRequest(
+        int jobId,
+        AppointmentSlot appointmentSlot,
+        string tradeCode)
+    {
+        var slotTimeDescription = "08:00-10:00";
+        return new BookAppointmentRequest
+        {
+            AppointmentDateTime = appointmentSlot.StartTime,
+            AppointmentNotes = "N/A",
+            SlotTimeDescription = slotTimeDescription,
+            Trade = tradeCode,
+            ClientSystemUser = ClientSystemUser,
+            JobId = jobId
+        };
+    }
 }
