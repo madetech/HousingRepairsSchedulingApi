@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Domain;
 using Dtos.Mcm;
+using Extensions;
 
 public class McmRequestFactory
 {
@@ -44,17 +45,14 @@ public class McmRequestFactory
     public BookAppointmentRequest BookAppointmentRequest(
         int jobId,
         AppointmentSlot appointmentSlot,
-        string tradeCode)
+        string tradeCode
+    ) => new()
     {
-        var slotTimeDescription = "08:00-10:00";
-        return new BookAppointmentRequest
-        {
-            AppointmentDateTime = appointmentSlot.StartTime,
-            AppointmentNotes = "N/A",
-            SlotTimeDescription = slotTimeDescription,
-            Trade = tradeCode,
-            ClientSystemUser = ClientSystemUser,
-            JobId = jobId
-        };
-    }
+        AppointmentDateTime = appointmentSlot.StartTime,
+        AppointmentNotes = "N/A",
+        SlotTimeDescription = appointmentSlot.McmSlotDescription(),
+        Trade = tradeCode,
+        ClientSystemUser = ClientSystemUser,
+        JobId = jobId
+    };
 }
