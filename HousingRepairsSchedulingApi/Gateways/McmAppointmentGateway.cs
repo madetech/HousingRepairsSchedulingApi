@@ -63,6 +63,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
         var jobId = await this.AddJob(bookingReference, jobCodes, addressUprn, contact, jobDescription);
 
         await this.BookAppointmentForJob(jobId, appointmentSlot, jobCodes);
+        Console.WriteLine($"Booked Appointment for Job with ID: {jobId}");
 
         return bookingReference;
     }
