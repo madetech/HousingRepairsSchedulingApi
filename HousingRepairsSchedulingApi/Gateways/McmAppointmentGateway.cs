@@ -50,7 +50,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
             .PostJsonAsync(getSlotsRequest)
             .ReceiveJson<GetSlotsResponse>();
 
-        this.CheckMcmResponse(response);
+        CheckMcmResponse(response);
 
         return response.ToAppointmentSlots(NumDaysLimit, earliestDate);
     }
@@ -61,6 +61,8 @@ public class McmAppointmentGateway : IAppointmentsGateway
         var jobCodes = this.jobCodesMapper.FromSorCode(sorCode);
 
         var jobId = await this.AddJob(bookingReference, jobCodes, addressUprn, contact, jobDescription);
+
+        await this.BookAppointmentForJob(jobId, appointmentSlot, jobCodes);
 
         return bookingReference;
     }
@@ -82,12 +84,25 @@ public class McmAppointmentGateway : IAppointmentsGateway
             .PostJsonAsync(addJobRequest)
             .ReceiveJson<AddJobResponse>();
 
-        this.CheckMcmResponse(response);
+        CheckMcmResponse(response);
 
         return response.JobId;
     }
 
-    private void CheckMcmResponse(McmResponse response)
+    private async Task BookAppointmentForJob(int jobId, AppointmentSlot appointmentSlot, JobCodes jobCodes)
+    {
+        var bookAppointmentRequest =
+            this.mcmRequestFactory.BookAppointmentRequest(jobId, appointmentSlot, jobCodes.TradeCode);
+
+        var response = await this.appointmentManagementUrl.AppendPathSegment("BookAppointment")
+            .WithBasicAuth(this.mcmConfiguration.Username, this.mcmConfiguration.Password)
+            .PostJsonAsync(bookAppointmentRequest)
+            .ReceiveJson<BookAppointmentResponse>();
+
+        CheckMcmResponse(response);
+    }
+
+    private static void CheckMcmResponse(McmResponse response)
     {
         if (response.StatusCode != "1")
         {
