@@ -47,6 +47,7 @@ environments:
         placement:
           subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
   # production:
+    # exec: true
     # network:
     #   vpc: 
     #     security_groups:
