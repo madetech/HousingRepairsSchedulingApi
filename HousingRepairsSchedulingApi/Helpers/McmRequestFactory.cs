@@ -1,5 +1,6 @@
 namespace HousingRepairsSchedulingApi.Helpers;
 
+using System;
 using System.Collections.Generic;
 using Domain;
 using Dtos.Mcm;
@@ -33,7 +34,7 @@ public class McmRequestFactory
             ContractReference = ContractReference,
             ExpenditureCode = ExpenditureCode,
             JobDescription = jobDescription,
-            JobNumber = bookingReference[..20],
+            JobNumber = bookingReference.Substring(0, Math.Min(bookingReference.Length, 20)),
             OnHold = false,
             PriorityCode = Priority,
             Trade = jobCodes.TradeCode,

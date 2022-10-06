@@ -25,41 +25,69 @@ public class McmAppointmentGatewayTests : IDisposable
         var jobCodesMapperMock = new Mock<IJobCodesMapper>();
 
         jobCodesMapperMock.Setup(expression => expression.FromSorCode(It.IsAny<SorCode>()))
-            .Returns(new JobCodes(SorCode.Parse("sorcode"), "jobcode"));
+            .Returns(new JobCodes(SorCode(), "EL"));
 
         this.mcmAppointmentGateway =
             new McmAppointmentGateway(
                 new McmConfiguration("http://foo.com", "username", "password"),
-                jobCodesMapperMock.Object
+                jobCodesMapperMock.Object,
+                new McmRequestFactory()
             );
     }
 
     public void Dispose() => this.httpTest.Dispose();
 
     [Fact]
-    public async Task ShouldThrowExceptionWhenMcmDoesNotReturn200()
+    public async Task WhenGettingAppointmentsShouldThrowExceptionWhenMcmDoesNotReturn200()
     {
         var statusCode = 400;
         var badRequestMessage = "Bad request";
         this.httpTest.RespondWith(badRequestMessage, statusCode);
 
         Func<Task> act = async () =>
-            await this.mcmAppointmentGateway.GetAvailableAppointments(SorCode.Parse("sorCode"),
-                AddressUprn.Parse("uprn"), DateTime.Now);
+            await this.mcmAppointmentGateway.GetAvailableAppointments(Domain.SorCode.Parse("sorCode"),
+                Domain.AddressUprn.Parse("uprn"), DateTime.Now);
 
         await act.Should().ThrowExactlyAsync<FlurlHttpException>();
     }
 
     [Theory]
     [JsonFileData("fixtures/getAppointmentSlots.json", "error", typeof(GetSlotsResponse))]
-    public async Task ShouldThrowExceptionWhenMcmReturnsAnErrorInTheResponseBody(GetSlotsResponse response)
+    public async Task WhenGettingAppointmentShouldThrowExceptionWhenMcmReturnsAnErrorInTheResponseBody(
+        GetSlotsResponse response)
     {
         this.httpTest.RespondWithJson(response);
 
         Func<Task> act = async () =>
-            await this.mcmAppointmentGateway.GetAvailableAppointments(SorCode.Parse("sorCode"),
-                AddressUprn.Parse("locationid"), DateTime.Now);
+            await this.mcmAppointmentGateway.GetAvailableAppointments(SorCode(),
+                AddressUprn(), DateTime.Now);
 
         await act.Should().ThrowExactlyAsync<McmRequestError>();
     }
+
+    [Fact]
+    public async Task WhenAddingJobShouldThrowExceptionWhenMcmDoesNotReturn200()
+    {
+        var statusCode = 500;
+        var internalServerErrorMessage = "Internal Server Error";
+
+        this.httpTest.RespondWith(internalServerErrorMessage, statusCode);
+
+        Func<Task> act = async () =>
+            await this.mcmAppointmentGateway.BookAppointment(Reference(), SorCode(), AddressUprn(),
+                AppointmentSlot(), Contact(), Reference());
+
+        await act.Should().ThrowExactlyAsync<FlurlHttpException>();
+    }
+
+    private static SorCode SorCode() => Domain.SorCode.Parse("sorcode");
+
+    private static AddressUprn AddressUprn() => Domain.AddressUprn.Parse("addressuprn");
+
+    private static AppointmentSlot AppointmentSlot() => new(DateTime.Now, DateTime.Now.AddHours(1));
+
+    private static string Reference() => "a reference";
+
+    // Should use a faker library
+    private static Contact Contact() => new("01237 990881", "07888 888888", "test@test.com");
 }

@@ -5,14 +5,14 @@ using Flurl;
 
 public class McmConfiguration
 {
-    public McmConfiguration(Url baseUrl, string username, string password)
+    public McmConfiguration(string baseUrl, string username, string password)
     {
         this.BaseUrl = baseUrl;
         this.Username = username;
         this.Password = password;
     }
 
-    public Url BaseUrl { get; }
+    public string BaseUrl { get; }
     public string Password { get; }
     public string Username { get; }
 

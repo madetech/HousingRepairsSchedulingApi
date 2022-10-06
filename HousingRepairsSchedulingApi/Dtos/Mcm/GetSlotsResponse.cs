@@ -3,7 +3,7 @@ namespace HousingRepairsSchedulingApi.Dtos.Mcm;
 using System;
 using System.Collections.Generic;
 
-public record GetSlotsResponse
+public record GetSlotsResponse : McmResponse
 {
     public List<SlotDay> SlotDays { get; init; }
     public string StatusCode { get; init; }
