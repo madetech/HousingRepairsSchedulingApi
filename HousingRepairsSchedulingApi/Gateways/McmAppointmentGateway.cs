@@ -62,12 +62,10 @@ public class McmAppointmentGateway : IAppointmentsGateway
         AppointmentSlot appointmentSlot, Contact contact, string jobDescription)
     {
         var jobCodes = this.jobCodesMapper.FromSorCode(sorCode);
-        this.logger.AddJob(bookingReference);
 
         var jobId = await this.AddJob(bookingReference, jobCodes, addressUprn, contact, jobDescription);
 
         await this.BookAppointmentForJob(jobId, appointmentSlot, jobCodes);
-        Console.WriteLine($"Booked Appointment for Job with ID: {jobId}");
 
         return bookingReference;
     }
@@ -81,6 +79,8 @@ public class McmAppointmentGateway : IAppointmentsGateway
         string jobDescription
     )
     {
+        this.logger.BeforeAddJob(bookingReference);
+
         var addJobRequest =
             this.mcmRequestFactory.AddJobRequest(bookingReference, jobCodes, addressUprn, contact, jobDescription);
 
@@ -91,11 +91,15 @@ public class McmAppointmentGateway : IAppointmentsGateway
 
         CheckMcmResponse(response);
 
+        this.logger.AfterAddJob(response.JobId, bookingReference);
+
         return response.JobId;
     }
 
     private async Task BookAppointmentForJob(int jobId, AppointmentSlot appointmentSlot, JobCodes jobCodes)
     {
+        this.logger.BeforeBookAppointment(jobId);
+
         var bookAppointmentRequest =
             this.mcmRequestFactory.BookAppointmentRequest(jobId, appointmentSlot, jobCodes.TradeCode);
 
@@ -105,6 +109,8 @@ public class McmAppointmentGateway : IAppointmentsGateway
             .ReceiveJson<BookAppointmentResponse>();
 
         CheckMcmResponse(response);
+
+        this.logger.AfterBookAppointment(jobId);
     }
 
     private static void CheckMcmResponse(McmResponse response)
