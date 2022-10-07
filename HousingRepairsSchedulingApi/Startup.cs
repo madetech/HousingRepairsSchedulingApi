@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using UseCases;
 
@@ -42,7 +43,8 @@ public class Startup
                 // var appointmentSearchTimeSpanInDays = drsOptions.Value.SearchTimeSpanInDays;
                 // var appointmentLeadTimeInDays = drsOptions.Value.AppointmentLeadTimeInDays;
                 // var maximumNumberOfRequests = drsOptions.Value.MaximumNumberOfRequests;
-                return new McmAppointmentGateway(McmConfiguration.FromEnv(), sp.GetService<IJobCodesMapper>(),
+                return new McmAppointmentGateway(sp.GetRequiredService<ILogger<McmAppointmentGateway>>(),
+                    McmConfiguration.FromEnv(), sp.GetService<IJobCodesMapper>(),
                     new McmRequestFactory());
             }
         );

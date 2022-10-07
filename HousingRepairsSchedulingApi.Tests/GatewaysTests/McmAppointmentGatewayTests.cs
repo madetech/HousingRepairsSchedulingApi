@@ -11,6 +11,7 @@ using Flurl.Http.Testing;
 using Gateways;
 using Gateways.Exceptions;
 using Helpers;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -29,6 +30,7 @@ public class McmAppointmentGatewayTests : IDisposable
 
         this.mcmAppointmentGateway =
             new McmAppointmentGateway(
+                new NullLogger<McmAppointmentGateway>(),
                 new McmConfiguration("http://foo.com", "username", "password"),
                 jobCodesMapperMock.Object,
                 new McmRequestFactory()

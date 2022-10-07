@@ -11,6 +11,7 @@ using Extensions;
 using Flurl;
 using Flurl.Http;
 using Helpers;
+using Microsoft.Extensions.Logging;
 
 public class McmAppointmentGateway : IAppointmentsGateway
 {
@@ -18,10 +19,11 @@ public class McmAppointmentGateway : IAppointmentsGateway
     private readonly string appointmentManagementUrl;
     private readonly IJobCodesMapper jobCodesMapper;
     private readonly string jobManagementUrl;
+    private readonly ILogger logger;
     private readonly McmConfiguration mcmConfiguration;
     private readonly McmRequestFactory mcmRequestFactory;
 
-    public McmAppointmentGateway(
+    public McmAppointmentGateway(ILogger<McmAppointmentGateway> logger,
         McmConfiguration mcmConfiguration,
         IJobCodesMapper jobCodesMapper,
         McmRequestFactory mcmRequestFactory
@@ -33,6 +35,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
         this.mcmConfiguration = mcmConfiguration;
         this.jobCodesMapper = jobCodesMapper;
         this.mcmRequestFactory = mcmRequestFactory;
+        this.logger = logger;
     }
 
     // Assumptions:
@@ -59,6 +62,7 @@ public class McmAppointmentGateway : IAppointmentsGateway
         AppointmentSlot appointmentSlot, Contact contact, string jobDescription)
     {
         var jobCodes = this.jobCodesMapper.FromSorCode(sorCode);
+        this.logger.AddJob(bookingReference);
 
         var jobId = await this.AddJob(bookingReference, jobCodes, addressUprn, contact, jobDescription);
 
