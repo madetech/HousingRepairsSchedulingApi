@@ -6,6 +6,7 @@ using Controllers;
 using Domain;
 using Dtos.Hro;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using UseCases;
 using Xunit;
@@ -23,7 +24,8 @@ public class AppointmentsControllerTests : ControllerTests
     {
         this.availableAppointmentsUseCaseMock = new Mock<IRetrieveAvailableAppointmentsUseCase>();
         this.bookAppointmentUseCaseMock = new Mock<IBookAppointmentUseCase>();
-        this.systemUndertest = new AppointmentsController(this.availableAppointmentsUseCaseMock.Object,
+        this.systemUndertest = new AppointmentsController(NullLogger<AppointmentsController>.Instance,
+            this.availableAppointmentsUseCaseMock.Object,
             this.bookAppointmentUseCaseMock.Object);
     }
 
