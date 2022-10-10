@@ -6,7 +6,7 @@ using Domain;
 using Dtos.Hro;
 using Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Sentry;
+using Microsoft.Extensions.Logging;
 using UseCases;
 
 [ApiController]
@@ -14,11 +14,14 @@ using UseCases;
 public class AppointmentsController : ControllerBase
 {
     private readonly IBookAppointmentUseCase bookAppointmentUseCase;
+    private readonly ILogger<AppointmentsController> logger;
     private readonly IRetrieveAvailableAppointmentsUseCase retrieveAvailableAppointmentsUseCase;
 
-    public AppointmentsController(IRetrieveAvailableAppointmentsUseCase retrieveAvailableAppointmentsUseCase,
+    public AppointmentsController(ILogger<AppointmentsController> logger,
+        IRetrieveAvailableAppointmentsUseCase retrieveAvailableAppointmentsUseCase,
         IBookAppointmentUseCase bookAppointmentUseCase)
     {
+        this.logger = logger;
         this.retrieveAvailableAppointmentsUseCase = retrieveAvailableAppointmentsUseCase;
         this.bookAppointmentUseCase = bookAppointmentUseCase;
     }
@@ -36,7 +39,7 @@ public class AppointmentsController : ControllerBase
         }
         catch (Exception ex)
         {
-            SentrySdk.CaptureException(ex);
+            this.logger.ErrorGettingAppointments(ex);
             return this.StatusCode(500, ex.Message);
         }
     }
@@ -56,7 +59,7 @@ public class AppointmentsController : ControllerBase
         }
         catch (Exception ex)
         {
-            SentrySdk.CaptureException(ex);
+            this.logger.ErrorBookingAppointment(bookAppointmentRequest.Reference, ex);
             return this.StatusCode(500, ex.Message);
         }
     }
