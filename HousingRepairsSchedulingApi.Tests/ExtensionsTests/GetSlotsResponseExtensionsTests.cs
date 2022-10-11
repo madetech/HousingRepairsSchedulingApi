@@ -16,7 +16,7 @@ public class GetSlotsResponseExtensionsTests
     {
         var appointments = getSlotsResponse.ToAppointmentSlots(5, DateTime.MinValue);
 
-        appointments.Should().HaveCount(7);
+        appointments.Should().HaveCount(4);
     }
 
     [Fact]
@@ -33,9 +33,9 @@ public class GetSlotsResponseExtensionsTests
             'NonBookingDay': false,
             'Slots': [
                 {
-                    'Description': 'ALL',
+                    'Description': '08:00-10:00',
                     'StartTime': '08:00:00',
-                    'EndTime': '17:00:00',
+                    'EndTime': '10:00:00',
                     'Bookable': true,
                     'AvailableSlotCapacity': 24,
                     'MaximumSlotCapacity': 33
@@ -48,7 +48,7 @@ public class GetSlotsResponseExtensionsTests
         var appointment = getSlotsResponse.ToAppointmentSlots(5, DateTime.MinValue).First();
 
         appointment.StartTime.Should().Be(DateTime.Parse("2022-09-26T08:00:00"));
-        appointment.EndTime.Should().Be(DateTime.Parse("2022-09-26T17:00:00"));
+        appointment.EndTime.Should().Be(DateTime.Parse("2022-09-26T10:00:00"));
     }
 
     [Theory]
