@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Domain;
 using Dtos.Mcm;
-using Extensions;
 
 public class McmRequestFactory
 {
@@ -50,7 +49,7 @@ public class McmRequestFactory
     {
         AppointmentDateTime = appointmentSlot.StartTime,
         AppointmentNotes = "N/A",
-        SlotTimeDescription = appointmentSlot.McmSlotDescription(),
+        SlotTimeDescription = appointmentSlot.Id,
         Trade = tradeCode,
         ClientSystemUser = ClientSystemUser,
         JobId = jobId

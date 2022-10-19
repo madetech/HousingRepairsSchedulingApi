@@ -36,7 +36,7 @@ public static class GetSlotsResponseExtensions
                         .Where(slot =>
                             slot.AvailableSlotCapacity > 0 && slot.Bookable &&
                             !SlotDescriptions.Contains(slot.Description)).Select(slot =>
-                            new AppointmentSlot(date.Add(slot.StartTime), date.Add(slot.EndTime)));
+                            new AppointmentSlot(slot.Description, date.Add(slot.StartTime), date.Add(slot.EndTime)));
                 }
             );
 

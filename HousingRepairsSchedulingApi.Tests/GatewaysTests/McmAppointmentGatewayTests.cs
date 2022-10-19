@@ -86,7 +86,7 @@ public class McmAppointmentGatewayTests : IDisposable
 
     private static AddressUprn AddressUprn() => Domain.AddressUprn.Parse("addressuprn");
 
-    private static AppointmentSlot AppointmentSlot() => new(DateTime.Now, DateTime.Now.AddHours(1));
+    private static AppointmentSlot AppointmentSlot() => new("1", DateTime.Now, DateTime.Now.AddHours(1));
 
     private static string Reference() => "a reference";
 

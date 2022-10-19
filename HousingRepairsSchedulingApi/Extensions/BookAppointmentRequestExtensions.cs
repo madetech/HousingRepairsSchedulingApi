@@ -10,7 +10,7 @@ public static class BookAppointmentRequestExtensions
         request.ContactDetails.MobileNumber, request.ContactDetails.Email);
 
     public static AppointmentSlot GetAppointmentSlot(this BookAppointmentRequest request) =>
-        new(request.Appointment.StartTime, request.Appointment.EndTime);
+        new(request.Appointment.Id, request.Appointment.StartTime, request.Appointment.EndTime);
 
     public static SorCode GetSorCode(this BookAppointmentRequest request) => SorCode.Parse(request.SorCode);
 
