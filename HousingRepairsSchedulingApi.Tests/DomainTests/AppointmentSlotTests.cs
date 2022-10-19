@@ -13,7 +13,7 @@ public class AppointmentSlotTests
         var startTime = DateTime.Now;
         var endTime = startTime.Subtract(TimeSpan.FromHours(1));
 
-        var act = () => new AppointmentSlot(startTime, endTime);
+        var act = () => new AppointmentSlot("1", startTime, endTime);
 
         act.Should().ThrowExactly<ArgumentOutOfRangeException>();
     }

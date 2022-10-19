@@ -14,20 +14,24 @@ public class DummyAppointmentsGateway : IAppointmentsGateway
         var dateTime = (fromDate ?? DateTime.Today).Date;
         var unorderedAppointments = new List<AppointmentSlot>
         {
-            new(dateTime.AddDays(16).AddHours(8), dateTime.AddDays(16).AddHours(12)),
+            new("1", dateTime.AddDays(16).AddHours(8), dateTime.AddDays(16).AddHours(12)),
             new(
+                "2",
                 dateTime.AddDays(20).AddDays(2).AddHours(12),
                 dateTime.AddDays(20).AddDays(2).AddHours(16)
             ),
             new(
+                "3",
                 dateTime.AddDays(7).AddDays(7).AddHours(8),
                 dateTime.AddDays(7).AddDays(7).AddHours(12)
             ),
             new(
+                "4",
                 dateTime.AddDays(1).AddDays(1).AddHours(8),
                 dateTime.AddDays(1).AddDays(1).AddHours(12)
             ),
             new(
+                "5",
                 dateTime.AddDays(5).AddDays(5).AddHours(12),
                 dateTime.AddDays(5).AddDays(5).AddHours(16)
             )
