@@ -54,4 +54,4 @@ environments:
           deny_default: false
           groups: [sg-08d5e199bc4a36b9d]
         placement:
-          subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
+          subnets: ['subnet-0196644cdb97a19df','subnet-0b4d4369d97e7b962','subnet-0b17ad7d48dbbbd52']
