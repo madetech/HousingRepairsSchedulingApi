@@ -32,13 +32,13 @@ secrets: # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
   MCM_PASSWORD: "/redbridge/scheduling/mcm/password"
   MCM_BASEURL: "/redbridge/scheduling/mcm/base_url"
 
+variables:
+  AUTHENTICATION_IDENTIFIER: FOO
+  JWT_SECRET: and0X3NlY3JldA
 # You can override any of the values defined above by environment.
 # NOTE!!!: Environment variables set here are for test purposes, secrets should be set using SSM or similar
 environments:
   development:
-    variables:
-      AUTHENTICATION_IDENTIFIER: FOO
-      JWT_SECRET: and0X3NlY3JldA
     network:
       vpc: 
         security_groups:
@@ -46,12 +46,12 @@ environments:
           groups: [sg-02c845b61c1cb0381]
         placement:
           subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
-  # production:
-    # exec: false
-    # network:
-    #   vpc: 
-    #     security_groups:
-    #       deny_default: false
-    #       groups: []
-    #     placement:
-    #       subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
+  production:
+    exec: false
+    network:
+      vpc: 
+        security_groups:
+          deny_default: false
+          groups: [sg-08d5e199bc4a36b9d]
+        placement:
+          subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
