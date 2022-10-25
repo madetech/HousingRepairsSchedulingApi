@@ -11,7 +11,7 @@ public record GetSlotsRequest
         this.ClientSystemUser = "Made Tech";
         this.OperationMode = 0;
         this.ContractType = "Response";
-        this.ClientContractReference = null;
+        this.ClientContractReference = "230000027";
         this.TradesArray = jobCodes.TradeCode;
         this.Priority = "R";
         this.AppointmentDateTime = appointmentDateTime;
