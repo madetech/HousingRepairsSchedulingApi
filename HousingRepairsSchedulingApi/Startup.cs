@@ -1,11 +1,8 @@
 namespace HousingRepairsSchedulingApi;
 
-using System;
-using System.ServiceModel;
 using Configuration;
 using Gateways;
 using Helpers;
-using HousingRepairsOnline.Authentication.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,8 +14,6 @@ using UseCases;
 
 public class Startup
 {
-    private const string HousingRepairsSchedulingApiIssuerId = "Housing Management System Api";
-
     public Startup(IConfiguration configuration) => this.Configuration = configuration;
 
     public IConfiguration Configuration { get; }
@@ -26,23 +21,14 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddHousingRepairsOnlineAuthentication(HousingRepairsSchedulingApiIssuerId);
-
         services.AddControllers();
         services.AddTransient<IRetrieveAvailableAppointmentsUseCase, RetrieveAvailableAppointmentsUseCase>();
         services.AddTransient<IBookAppointmentUseCase, BookAppointmentUseCase>();
-
-        this.ConfigureOptions(services);
-
 
         services.AddJobCodesMapper("jobCodes.json");
 
         services.AddTransient<IAppointmentsGateway, McmAppointmentGateway>(sp =>
             {
-                // var drsOptions = sp.GetRequiredService<IOptions<DrsOptions>>();
-                // var appointmentSearchTimeSpanInDays = drsOptions.Value.SearchTimeSpanInDays;
-                // var appointmentLeadTimeInDays = drsOptions.Value.AppointmentLeadTimeInDays;
-                // var maximumNumberOfRequests = drsOptions.Value.MaximumNumberOfRequests;
                 return new McmAppointmentGateway(sp.GetRequiredService<ILogger<McmAppointmentGateway>>(),
                     McmConfiguration.FromEnv(), sp.GetService<IJobCodesMapper>(),
                     new McmRequestFactory());
@@ -52,13 +38,9 @@ public class Startup
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "HousingRepairsSchedulingApi", Version = "v1" });
-            c.AddJwtSecurityScheme();
         });
 
-        // var address = Configuration.GetSection(nameof(DrsOptions))[DrsOptionsApiAddressConfigurationKey];
-        // var addressHost = new Uri(address).Host;
         services.AddHealthChecks();
-        //     .AddTcpHealthCheck(options => options.AddHost(addressHost, 80), name: "DRS Host TCP Ping");
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,8 +53,6 @@ public class Startup
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HousingRepairsSchedulingApi v1"));
         }
 
-        //app.UseHttpsRedirection();
-
         app.UseRouting();
 
         app.UseAuthentication();
@@ -83,30 +63,5 @@ public class Startup
             endpoints.MapHealthChecks("/health");
             endpoints.MapControllers().RequireAuthorization();
         });
-    }
-
-    private void ConfigureOptions(IServiceCollection services)
-    {
-    }
-
-    private static HttpBindingBase CreateBinding(Uri uri)
-    {
-        HttpBindingBase binding;
-        var uriScheme = uri.Scheme;
-
-        if (uriScheme == Uri.UriSchemeHttps)
-        {
-            binding = new BasicHttpsBinding();
-        }
-        else if (uriScheme == Uri.UriSchemeHttp)
-        {
-            binding = new BasicHttpBinding();
-        }
-        else
-        {
-            throw new NotSupportedException($"Unsupported URI scheme '{uriScheme}' used by '{uri}'");
-        }
-
-        return binding;
     }
 }
