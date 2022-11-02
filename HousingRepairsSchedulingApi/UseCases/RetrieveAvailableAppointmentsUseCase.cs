@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Gateways;
-using HACT.Dtos;
 
 public class RetrieveAvailableAppointmentsUseCase : IRetrieveAvailableAppointmentsUseCase
 {

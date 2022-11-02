@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Domain;
-using HACT.Dtos;
 
 public interface IRetrieveAvailableAppointmentsUseCase
 {
