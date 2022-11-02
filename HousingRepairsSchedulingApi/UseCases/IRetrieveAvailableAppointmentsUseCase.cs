@@ -1,3 +1,5 @@
+using HousingRepairsSchedulingApi.Dtos.Hro;
+
 namespace HousingRepairsSchedulingApi.UseCases;
 
 using System;
@@ -9,6 +11,6 @@ using HACT.Dtos;
 
 public interface IRetrieveAvailableAppointmentsUseCase
 {
-    public Task<IEnumerable<Appointment>> Execute([NotNull] SorCode sorCode, [NotNull] AddressUprn addressUprn,
+    public Task<IEnumerable<AppointmentDto>> Execute([NotNull] SorCode sorCode, [NotNull] AddressUprn addressUprn,
         DateTime? fromDate);
 }
