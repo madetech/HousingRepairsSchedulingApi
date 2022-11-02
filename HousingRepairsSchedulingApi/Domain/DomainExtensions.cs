@@ -8,7 +8,6 @@ public static class DomainExtensions
         new()
         {
             Id = appointmentSlot.Id,
-            Date = appointmentSlot.StartTime.Date,
             StartTime = appointmentSlot.StartTime,
             EndTime = appointmentSlot.EndTime
         };
