@@ -5,7 +5,6 @@ using Domain;
 
 public record GetSlotsRequest
 {
-    // TODO: Remove hardcoding of values
     public GetSlotsRequest(JobCodes jobCodes, DateTime appointmentDateTime, AddressUprn addressUprn)
     {
         this.ClientSystemUser = "Made Tech";
