@@ -12,9 +12,6 @@ type: Backend Service
 image:
   build:
     dockerfile: ./Dockerfile
-    args:
-      USERNAME: ${GITHUB_USERNAME}
-      TOKEN: ${GITHUB_TOKEN}
   port: 80
 
 cpu: 256 # Number of CPU units for the task.
@@ -40,18 +37,28 @@ variables:
 environments:
   development:
     network:
-      vpc: 
+      vpc:
         security_groups:
           deny_default: false
           groups: [sg-02c845b61c1cb0381]
         placement:
-          subnets: ['subnet-094a675fa204b1a97','subnet-03f304546b5d56dd2','subnet-050cdfb68c7ecdab5']
+          subnets:
+            [
+              "subnet-094a675fa204b1a97",
+              "subnet-03f304546b5d56dd2",
+              "subnet-050cdfb68c7ecdab5",
+            ]
   production:
     exec: false
     network:
-      vpc: 
+      vpc:
         security_groups:
           deny_default: false
           groups: [sg-08d5e199bc4a36b9d]
         placement:
-          subnets: ['subnet-0196644cdb97a19df','subnet-0b4d4369d97e7b962','subnet-0b17ad7d48dbbbd52']
+          subnets:
+            [
+              "subnet-0196644cdb97a19df",
+              "subnet-0b4d4369d97e7b962",
+              "subnet-0b17ad7d48dbbbd52",
+            ]
